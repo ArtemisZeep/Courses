@@ -1,0 +1,243 @@
+{
+  "questions": [
+    {
+      "title": "Что такое Microsoft Excel?",
+      "description": "Выберите правильное определение программы Excel",
+      "type": "single",
+      "order": 1,
+      "options": [
+        {
+          "text": "Текстовый редактор для создания документов",
+          "isCorrect": false,
+          "order": 1
+        },
+        {
+          "text": "Электронная таблица для работы с данными",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "text": "Графический редактор для создания изображений",
+          "isCorrect": false,
+          "order": 3
+        },
+        {
+          "text": "База данных для хранения информации",
+          "isCorrect": false,
+          "order": 4
+        }
+      ]
+    },
+    {
+      "title": "Какие основные функции доступны в Excel?",
+      "description": "Выберите все правильные ответы",
+      "type": "multiple",
+      "order": 2,
+      "options": [
+        {
+          "text": "Создание и редактирование таблиц",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "text": "Построение графиков и диаграмм",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "text": "Редактирование видео и аудио",
+          "isCorrect": false,
+          "order": 3
+        },
+        {
+          "text": "Выполнение математических расчетов",
+          "isCorrect": true,
+          "order": 4
+        },
+        {
+          "text": "Создание презентаций",
+          "isCorrect": false,
+          "order": 5
+        }
+      ]
+    },
+    {
+      "title": "Что такое ячейка в Excel?",
+      "description": "Выберите правильное определение",
+      "type": "single",
+      "order": 3,
+      "options": [
+        {
+          "text": "Место пересечения строки и столбца",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "text": "Только строка таблицы",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "text": "Только столбец таблицы",
+          "isCorrect": false,
+          "order": 3
+        },
+        {
+          "text": "Заголовок таблицы",
+          "isCorrect": false,
+          "order": 4
+        }
+      ]
+    },
+    {
+      "title": "Как обозначается ячейка в Excel?",
+      "description": "Выберите правильный формат",
+      "type": "single",
+      "order": 4,
+      "options": [
+        {
+          "text": "Буква столбца + номер строки (например, A1)",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "text": "Номер строки + буква столбца (например, 1A)",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "text": "Только буква столбца",
+          "isCorrect": false,
+          "order": 3
+        },
+        {
+          "text": "Только номер строки",
+          "isCorrect": false,
+          "order": 4
+        }
+      ]
+    },
+    {
+      "title": "Какие типы данных можно вводить в ячейки Excel?",
+      "description": "Выберите все правильные типы",
+      "type": "multiple",
+      "order": 5,
+      "options": [
+        {
+          "text": "Текст",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "text": "Числа",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "text": "Даты",
+          "isCorrect": true,
+          "order": 3
+        },
+        {
+          "text": "Формулы",
+          "isCorrect": true,
+          "order": 4
+        },
+        {
+          "text": "Видео файлы",
+          "isCorrect": false,
+          "order": 5
+        }
+      ]
+    },
+    {
+      "title": "Что такое формула в Excel?",
+      "description": "Выберите правильное определение",
+      "type": "single",
+      "order": 6,
+      "options": [
+        {
+          "text": "Выражение, которое выполняет вычисления",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "text": "Только текстовая информация",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "text": "Только числовые данные",
+          "isCorrect": false,
+          "order": 3
+        },
+        {
+          "text": "Графический элемент",
+          "isCorrect": false,
+          "order": 4
+        }
+      ]
+    },
+    {
+      "title": "Какие функции доступны в Excel?",
+      "description": "Выберите все правильные функции",
+      "type": "multiple",
+      "order": 7,
+      "options": [
+        {
+          "text": "СУММ - для сложения чисел",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "text": "СРЗНАЧ - для вычисления среднего",
+          "isCorrect": true,
+          "order": 2
+        },
+        {
+          "text": "МАКС - для поиска максимального значения",
+          "isCorrect": true,
+          "order": 3
+        },
+        {
+          "text": "МИН - для поиска минимального значения",
+          "isCorrect": true,
+          "order": 4
+        },
+        {
+          "text": "РЕДАКТИРОВАТЬ_ВИДЕО - для работы с видео",
+          "isCorrect": false,
+          "order": 5
+        }
+      ]
+    },
+    {
+      "title": "Как создать диаграмму в Excel?",
+      "description": "Выберите правильную последовательность",
+      "type": "single",
+      "order": 8,
+      "options": [
+        {
+          "text": "Выделить данные → Вставка → Диаграмма",
+          "isCorrect": true,
+          "order": 1
+        },
+        {
+          "text": "Файл → Создать диаграмму",
+          "isCorrect": false,
+          "order": 2
+        },
+        {
+          "text": "Правый клик → Создать диаграмму",
+          "isCorrect": false,
+          "order": 3
+        },
+        {
+          "text": "Формулы → Диаграмма",
+          "isCorrect": false,
+          "order": 4
+        }
+      ]
+    }
+  ]
+} 

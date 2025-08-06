@@ -1,0 +1,28 @@
+{
+  "userId": "cmdwzp9tc0001ucwk5t4kffzq",
+  "updatedAt": "2025-08-05T22:01:40.296Z",
+  "modules": [
+    {
+      "moduleId": "cmdykqtay0000uctlt9zn3w6s",
+      "status": "available",
+      "lessonsRead": [],
+      "quiz": {
+        "attempts": []
+      },
+      "assignment": {
+        "submitted": false
+      }
+    },
+    {
+      "moduleId": "cmdz0t1lq0061uctl48ebmihz",
+      "status": "available",
+      "lessonsRead": [],
+      "quiz": {
+        "attempts": []
+      },
+      "assignment": {
+        "submitted": false
+      }
+    }
+  ]
+}

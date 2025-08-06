@@ -1,0 +1,170 @@
+// Схема базы данных для платформы обучения Excel
+// Поддерживает модули, уроки, тесты, практические задания
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Модель пользователя с ролями
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  password      String
+  isAdmin       Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Связи
+  submissions   Submission[]
+  quizResults   QuizResult[]
+  
+  @@map("users")
+}
+
+// Модуль курса
+model Module {
+  id            String    @id @default(cuid())
+  title         String
+  description   String?
+  order         Int       @unique
+  attachmentUrl String?   // Файл задания
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Связи
+  lessons       Lesson[]
+  questions     Question[]
+  assignments   Assignment[]
+  submissions   Submission[]
+  quizResults   QuizResult[]
+  
+  @@map("modules")
+}
+
+// Урок в модуле
+model Lesson {
+  id          String   @id @default(cuid())
+  title       String
+  contentHtml String?  // HTML контент урока (опционально)
+  googleDocUrl String? // Ссылка на Google Doc
+  order       Int
+  moduleId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Связи
+  module      Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  
+  @@unique([moduleId, order])
+  @@map("lessons")
+}
+
+// Вопрос теста
+model Question {
+  id          String         @id @default(cuid())
+  title       String
+  description String?
+  type        QuestionType   // 'single' | 'multiple'
+  order       Int
+  moduleId    String
+  isFinal     Boolean        @default(true) // Является ли итоговым тестом
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  
+  // Связи
+  module      Module         @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  options     AnswerOption[]
+  
+  @@unique([moduleId, order])
+  @@map("questions")
+}
+
+// Варианты ответов
+model AnswerOption {
+  id         String   @id @default(cuid())
+  text       String
+  isCorrect  Boolean  @default(false)
+  order      Int
+  questionId String
+  createdAt  DateTime @default(now())
+  
+  // Связи
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  
+  @@unique([questionId, order])
+  @@map("answer_options")
+}
+
+// Практическое задание
+model Assignment {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  fileUrl     String?  // Файл задания (опционально)
+  moduleId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Связи
+  module      Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  submissions Submission[]
+  
+  @@map("assignments")
+}
+
+// Практическое задание (отправка)
+model Submission {
+  id           String           @id @default(cuid())
+  userId       String
+  moduleId     String
+  assignmentId String?          // Связь с заданием (опционально)
+  fileUrl      String
+  status       SubmissionStatus @default(NEW)
+  grade        String?          // "PASSED" или "FAILED"
+  feedback     String?
+  submittedAt  DateTime         @default(now())
+  gradedAt     DateTime?
+  
+  // Связи
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module       Module           @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  assignment   Assignment?      @relation(fields: [assignmentId], references: [id], onDelete: SetNull)
+  
+  @@unique([userId, moduleId])
+  @@map("submissions")
+}
+
+// Результат прохождения теста
+model QuizResult {
+  id           String   @id @default(cuid())
+  userId       String
+  moduleId     String
+  attemptId    String   // Уникальный ID попытки
+  scorePercent Float    // Процент правильных ответов
+  answers      Json     // JSON с детальными ответами
+  submittedAt  DateTime @default(now())
+  
+  // Связи
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module       Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  
+  @@map("quiz_results")
+}
+
+// Перечисления
+enum QuestionType {
+  single
+  multiple
+}
+
+enum SubmissionStatus {
+  NEW
+  GRADED
+}
