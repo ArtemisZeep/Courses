@@ -78,6 +78,7 @@ export async function POST(request: NextRequest) {
     const scorePercent = Math.round((correctAnswers / totalQuestions) * 100)
     const attemptId = `attempt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
+    console.log('Saving quiz result with answers:', answers)
     // Сохраняем результат
     const quizResult = await db.quizResult.create({
       data: {
@@ -105,12 +106,14 @@ export async function POST(request: NextRequest) {
                    correctOptions.every(opt => userSelectedOptions.includes(opt))
       }
 
-      return {
+      const answerDetail = {
         questionId: question.id,
         selectedOptionIds: userSelectedOptions,
         correctOptionIds: correctOptions,
         isCorrect: isCorrect
       }
+      console.log(`Detailed answer for question ${question.id}:`, answerDetail)
+      return answerDetail
     })
 
     return NextResponse.json({
@@ -187,6 +190,7 @@ export async function GET(request: NextRequest) {
 
     // Восстанавливаем детальную информацию об ответах из JSON
     const storedAnswers = lastResult.answers as any[]
+    console.log('Stored answers from DB:', storedAnswers)
     const detailedAnswers = module.questions.map(question => {
       const userAnswer = storedAnswers.find((a: any) => a.questionId === question.id)
       const userSelectedOptions = userAnswer?.selectedOptionIds || []
@@ -201,12 +205,14 @@ export async function GET(request: NextRequest) {
                    correctOptions.every(opt => userSelectedOptions.includes(opt))
       }
 
-      return {
+      const answerDetail = {
         questionId: question.id,
         selectedOptionIds: userSelectedOptions,
         correctOptionIds: correctOptions,
         isCorrect: isCorrect
       }
+      console.log(`Answer detail for question ${question.id}:`, answerDetail)
+      return answerDetail
     })
 
     return NextResponse.json({

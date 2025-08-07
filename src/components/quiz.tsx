@@ -52,11 +52,13 @@ export default function Quiz({ questions, onSubmit, onRetake, isSubmitted, resul
 
   // Восстанавливаем выбранные ответы из результатов теста только если тест завершен
   useEffect(() => {
+    console.log('Quiz useEffect:', { isSubmitted, result })
     if (isSubmitted && result?.attempt?.answers) {
       const restoredAnswers: Record<string, string[]> = {}
       result.attempt.answers.forEach(answer => {
         restoredAnswers[answer.questionId] = answer.selectedOptionIds
       })
+      console.log('Restored answers:', restoredAnswers)
       setSelectedAnswers(restoredAnswers)
     } else if (!isSubmitted) {
       // Если тест не завершен (режим прохождения), очищаем ответы
@@ -243,6 +245,7 @@ export default function Quiz({ questions, onSubmit, onRetake, isSubmitted, resul
                     // Получаем информацию о выборе из результатов теста
                     const answerData = result?.attempt?.answers.find(a => a.questionId === question.id)
                     const isSelected = answerData?.selectedOptionIds.includes(option.id) || false
+                    console.log(`Option ${option.id} for question ${question.id}:`, { isSelected, answerData })
                     
                     return (
                       <div 
@@ -292,6 +295,7 @@ export default function Quiz({ questions, onSubmit, onRetake, isSubmitted, resul
                         {showAnswers && status === 'correct' && <CheckCircle className="text-green-500" size={16} />}
                         {showAnswers && status === 'incorrect' && <XCircle className="text-red-500" size={16} />}
                         {showAnswers && status === 'missed' && <span className="text-yellow-600">⚠️</span>}
+                        {!showAnswers && isSelected && <span className="text-blue-500">✓</span>}
                       </div>
                     )
                   })}

@@ -127,7 +127,7 @@ model Submission {
   assignmentId String?          // Связь с заданием (опционально)
   fileUrl      String
   status       SubmissionStatus @default(NEW)
-  grade        String?          // "PASSED" или "FAILED"
+  grade        Int?             // Оценка от 1 до 5
   feedback     String?
   submittedAt  DateTime         @default(now())
   gradedAt     DateTime?
