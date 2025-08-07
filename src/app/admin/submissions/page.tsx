@@ -18,7 +18,7 @@ interface Submission {
   moduleId: string
   fileUrl: string
   status: 'NEW' | 'GRADED'
-  grade?: string // "PASSED" или "FAILED"
+  grade?: number // Баллы от 0 до 5
   feedback?: string
   submittedAt: string
   gradedAt?: string
@@ -39,7 +39,7 @@ export default function SubmissionsPage() {
   const [error, setError] = useState('')
   const [selectedSubmission, setSelectedSubmission] = useState<Submission | null>(null)
   const [grading, setGrading] = useState(false)
-  const [grade, setGrade] = useState('')
+  const [grade, setGrade] = useState<number | null>(null)
   const [feedback, setFeedback] = useState('')
   const [showFeedbackModal, setShowFeedbackModal] = useState(false)
   const [selectedFeedback, setSelectedFeedback] = useState('')
@@ -72,7 +72,7 @@ export default function SubmissionsPage() {
 
   const handleGrade = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!selectedSubmission) return
+    if (!selectedSubmission || grade === null) return
 
     setGrading(true)
     try {
@@ -97,7 +97,7 @@ export default function SubmissionsPage() {
             : s
         ))
         setSelectedSubmission(null)
-        setGrade('')
+        setGrade(null)
         setFeedback('')
         alert('Оценка сохранена')
       } else {
@@ -273,9 +273,9 @@ export default function SubmissionsPage() {
                         <TableCell>{submission.module.title}</TableCell>
                         <TableCell>{getStatusBadge(submission.status)}</TableCell>
                         <TableCell>
-                          {submission.grade ? (
-                            <Badge variant={submission.grade === 'PASSED' ? 'default' : 'destructive'}>
-                              {submission.grade === 'PASSED' ? 'Зачтено' : 'Не зачтено'}
+                          {submission.grade !== null && submission.grade !== undefined ? (
+                            <Badge variant={submission.grade >= 3 ? 'default' : 'destructive'}>
+                              {submission.grade} {submission.grade === 1 ? 'балл' : submission.grade < 5 ? 'балла' : 'баллов'}
                             </Badge>
                           ) : (
                             <span className="text-gray-400">Не оценено</span>
@@ -372,14 +372,18 @@ export default function SubmissionsPage() {
                   <Label htmlFor="grade">Оценка</Label>
                   <select
                     id="grade"
-                    value={grade}
-                    onChange={(e) => setGrade(e.target.value)}
+                    value={grade === null ? "" : grade.toString()}
+                    onChange={(e) => setGrade(e.target.value === "" ? null : parseInt(e.target.value))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   >
                     <option value="">Выберите оценку</option>
-                    <option value="PASSED">Зачтено</option>
-                    <option value="FAILED">Не зачтено</option>
+                    <option value="0">0 баллов</option>
+                    <option value="1">1 балл</option>
+                    <option value="2">2 балла</option>
+                    <option value="3">3 балла</option>
+                    <option value="4">4 балла</option>
+                    <option value="5">5 баллов</option>
                   </select>
                 </div>
 
@@ -403,7 +407,7 @@ export default function SubmissionsPage() {
                     variant="outline"
                     onClick={() => {
                       setSelectedSubmission(null)
-                      setGrade('')
+                      setGrade(null)
                       setFeedback('')
                     }}
                   >

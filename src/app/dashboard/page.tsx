@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
+import Leaderboard from '@/components/leaderboard'
 
 interface ModuleProgress {
   moduleId: string
@@ -243,14 +244,14 @@ export default function DashboardPage() {
                             <div className="space-y-1">
                               <div className="text-green-600">✅ Выполнено: {module.progress.assignments.completed}/{module.progress.assignments.total}</div>
                               {module.progress.assignments.details.map(assignment => 
-                                assignment.grade && (
+                                assignment.grade !== null && assignment.grade !== undefined && (
                                   <div key={assignment.id} className="flex items-center gap-1">
                                     <span>Оценка:</span>
                                     <Badge 
-                                      variant={assignment.grade === 'PASSED' ? 'default' : 'destructive'}
+                                      variant={assignment.grade >= 3 ? 'default' : 'destructive'}
                                       className="text-xs"
                                     >
-                                      {assignment.grade === 'PASSED' ? 'Зачтено' : 'Не зачтено'}
+                                      {assignment.grade} {assignment.grade === 1 ? 'балл' : assignment.grade < 5 ? 'балла' : 'баллов'}
                                     </Badge>
                                   </div>
                                 )
@@ -259,14 +260,14 @@ export default function DashboardPage() {
                           ) : module.progress.assignment.submitted && (
                             <div>
                               <div className="text-green-600">✅ Отправлено</div>
-                              {module.progress.assignment.grade && (
+                              {module.progress.assignment.grade !== null && module.progress.assignment.grade !== undefined && (
                                 <div className="flex items-center gap-1 mt-1">
                                   <span>Оценка:</span>
                                   <Badge 
-                                    variant={module.progress.assignment.grade === 'PASSED' ? 'default' : 'destructive'}
+                                    variant={module.progress.assignment.grade >= 3 ? 'default' : 'destructive'}
                                     className="text-xs"
                                   >
-                                    {module.progress.assignment.grade === 'PASSED' ? 'Зачтено' : 'Не зачтено'}
+                                    {module.progress.assignment.grade} {module.progress.assignment.grade === 1 ? 'балл' : module.progress.assignment.grade < 5 ? 'балла' : 'баллов'}
                                   </Badge>
                                 </div>
                               )}
@@ -314,6 +315,11 @@ export default function DashboardPage() {
               </Card>
             ))}
           </div>
+        </div>
+
+        {/* Leaderboard Section */}
+        <div className="mb-8">
+          <Leaderboard />
         </div>
 
         {/* Tips Section */}

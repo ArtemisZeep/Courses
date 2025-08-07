@@ -1,6 +1,6 @@
 {
   "userId": "cmdwzp9ms0000ucwkd4w8jbr7",
-  "updatedAt": "2025-08-06T09:27:12.438Z",
+  "updatedAt": "2025-08-07T09:22:29.535Z",
   "modules": [
     {
       "moduleId": "cmdwzp9tf0002ucwka4nyzehu",
@@ -65,6 +65,17 @@
       "lessonsRead": [
         "cmdz100920001uc692nijdnzk"
       ],
+      "quiz": {
+        "attempts": []
+      },
+      "assignment": {
+        "submitted": false
+      }
+    },
+    {
+      "moduleId": "cme16lngk0004ucv72iienvdp",
+      "status": "available",
+      "lessonsRead": [],
       "quiz": {
         "attempts": []
       },

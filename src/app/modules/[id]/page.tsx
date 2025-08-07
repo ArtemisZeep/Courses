@@ -512,15 +512,15 @@ export default function ModulePage() {
                           </div>
                           
                           {/* Показываем оценку и комментарий */}
-                          {submissionDetails[assignment.id] && submissionDetails[assignment.id].grade && (
+                          {submissionDetails[assignment.id] && submissionDetails[assignment.id].grade !== null && submissionDetails[assignment.id].grade !== undefined && (
                             <div className="mt-3 pt-3 border-t border-blue-200">
                               <div className="flex items-center gap-2 mb-2">
                                 <span className="text-sm font-medium">Оценка:</span>
                                 <Badge 
-                                  variant={submissionDetails[assignment.id].grade === 'PASSED' ? 'default' : 'destructive'}
+                                  variant={submissionDetails[assignment.id].grade >= 3 ? 'default' : 'destructive'}
                                   className="text-xs"
                                 >
-                                  {submissionDetails[assignment.id].grade === 'PASSED' ? 'Зачтено' : 'Не зачтено'}
+                                  {submissionDetails[assignment.id].grade} {submissionDetails[assignment.id].grade === 1 ? 'балл' : submissionDetails[assignment.id].grade < 5 ? 'балла' : 'баллов'}
                                 </Badge>
                               </div>
                               {submissionDetails[assignment.id].feedback && (
