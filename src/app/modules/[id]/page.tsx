@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import GoogleDocViewer from '@/components/google-doc-viewer'
 import Quiz from '@/components/quiz'
+import QuizSuccess from '@/components/quiz-success'
 
 interface Lesson {
   id: string
@@ -73,6 +74,7 @@ export default function ModulePage() {
   const [submissions, setSubmissions] = useState<Record<string, any>>({})
   const [submissionDetails, setSubmissionDetails] = useState<Record<string, any>>({})
   const [readLessons, setReadLessons] = useState<string[]>([])
+  const [showQuizSuccess, setShowQuizSuccess] = useState(false)
 
   useEffect(() => {
     if (moduleId) {
@@ -203,6 +205,17 @@ export default function ModulePage() {
     setActiveTab('quiz')
   }
 
+  const handleReturnToModule = () => {
+    setShowQuizSuccess(false)
+    setQuizSubmitted(false)
+    setQuizResult(null)
+    setSelectedAnswers({})
+    setError('')
+    setActiveTab('lessons') // Переключаемся на вкладку уроков
+    // Обновляем данные модуля
+    fetchModule()
+  }
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
@@ -270,15 +283,32 @@ export default function ModulePage() {
         }),
       })
 
-      const data = await response.json()
-      console.log('Ответ сервера:', data)
+      let data
+      try {
+        data = await response.json()
+        console.log('Ответ сервера:', data)
+      } catch (jsonError) {
+        console.error('Ошибка при парсинге JSON:', jsonError)
+        throw new Error('Ошибка при обработке ответа сервера')
+      }
 
       if (response.ok) {
+        // Проверяем, что ответ содержит необходимые данные
+        if (!data || typeof data !== 'object') {
+          throw new Error('Некорректный ответ сервера')
+        }
+
         setQuizResult(data)
         setQuizSubmitted(true)
         
-        // Автоматически переключаемся на вкладку с результатами теста
-        // Результаты будут показаны в компоненте Quiz
+        // Показываем страницу успешной отправки
+        setShowQuizSuccess(true)
+        
+        // Автоматически перезагружаем страницу через 5 секунд
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
+        
       } else {
         const errorMessage = data.details ? 
           `${data.error}\nДетали: ${data.details}` : 
@@ -287,8 +317,16 @@ export default function ModulePage() {
         console.error('Ошибка API:', response.status, data)
       }
     } catch (error) {
-      console.error('Ошибка сети:', error)
-      setError('Ошибка сети. Проверьте подключение к интернету.')
+      console.error('Ошибка при отправке теста:', error)
+      
+      // Проверяем тип ошибки для более точного сообщения
+      if (error instanceof Error) {
+        setError(error.message)
+      } else if (typeof error === 'string') {
+        setError(error)
+      } else {
+        setError('Произошла неожиданная ошибка. Попробуйте еще раз.')
+      }
     } finally {
       setLoading(false)
     }
@@ -403,42 +441,51 @@ export default function ModulePage() {
 
           {/* Quiz Tab */}
           <TabsContent value="quiz" className="space-y-6">
-            {error && (
-              <Card className="border-red-200 bg-red-50">
-                <CardContent className="pt-6">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-red-600">❌</span>
-                    <div>
-                      <h4 className="font-semibold text-red-800">Ошибка</h4>
-                      <pre className="text-sm text-red-700 whitespace-pre-wrap">{error}</pre>
-                    </div>
-                  </div>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="mt-3"
-                    onClick={() => setError('')}
-                  >
-                    Закрыть
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-            
-            {module.questions.length === 0 ? (
-              <Card>
-                <CardContent className="text-center py-8">
-                  <p className="text-gray-500">В этом модуле пока нет вопросов</p>
-                </CardContent>
-              </Card>
-            ) : (
-              <Quiz
-                questions={module.questions}
-                onSubmit={submitQuiz}
-                onRetake={retakeQuiz}
-                isSubmitted={quizSubmitted}
-                result={quizResult}
+            {showQuizSuccess ? (
+              <QuizSuccess
+                moduleId={moduleId}
+                onReturnToModule={handleReturnToModule}
               />
+            ) : (
+              <>
+                {error && (
+                  <Card className="border-red-200 bg-red-50">
+                    <CardContent className="pt-6">
+                      <div className="flex items-center space-x-2">
+                        <span className="text-red-600">❌</span>
+                        <div>
+                          <h4 className="font-semibold text-red-800">Ошибка</h4>
+                          <pre className="text-sm text-red-700 whitespace-pre-wrap">{error}</pre>
+                        </div>
+                      </div>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="mt-3"
+                        onClick={() => setError('')}
+                      >
+                        Закрыть
+                      </Button>
+                    </CardContent>
+                  </Card>
+                )}
+                
+                {module.questions.length === 0 ? (
+                  <Card>
+                    <CardContent className="text-center py-8">
+                      <p className="text-gray-500">В этом модуле пока нет вопросов</p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <Quiz
+                    questions={module.questions}
+                    onSubmit={submitQuiz}
+                    onRetake={retakeQuiz}
+                    isSubmitted={quizSubmitted}
+                    result={quizResult}
+                  />
+                )}
+              </>
             )}
           </TabsContent>
 
@@ -512,17 +559,19 @@ export default function ModulePage() {
                           </div>
                           
                           {/* Показываем оценку и комментарий */}
-                          {submissionDetails[assignment.id] && submissionDetails[assignment.id].grade !== null && submissionDetails[assignment.id].grade !== undefined && (
+                          {submissionDetails[assignment.id] && (
                             <div className="mt-3 pt-3 border-t border-blue-200">
-                              <div className="flex items-center gap-2 mb-2">
-                                <span className="text-sm font-medium">Оценка:</span>
-                                <Badge 
-                                  variant={submissionDetails[assignment.id].grade >= 3 ? 'default' : 'destructive'}
-                                  className="text-xs"
-                                >
-                                  {submissionDetails[assignment.id].grade} {submissionDetails[assignment.id].grade === 1 ? 'балл' : submissionDetails[assignment.id].grade < 5 ? 'балла' : 'баллов'}
-                                </Badge>
-                              </div>
+                              {submissionDetails[assignment.id].grade !== null && submissionDetails[assignment.id].grade !== undefined && (
+                                <div className="flex items-center gap-2 mb-2">
+                                  <span className="text-sm font-medium">Оценка:</span>
+                                  <Badge 
+                                    variant={submissionDetails[assignment.id].grade >= 3 ? 'default' : 'destructive'}
+                                    className="text-xs"
+                                  >
+                                    {submissionDetails[assignment.id].grade}/5 баллов
+                                  </Badge>
+                                </div>
+                              )}
                               {submissionDetails[assignment.id].feedback && (
                                 <div className="mt-2">
                                   <p className="text-sm font-medium text-gray-700 mb-1">Комментарий преподавателя:</p>
