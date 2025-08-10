@@ -19,7 +19,9 @@ DOMAIN="excel-edu.ru"
 CONTAINER_NAME="excel-course-app"
 DB_CONTAINER_NAME="excel-course-db"
 NETWORK_NAME="excel-course-network"
-PORT=3001  # Используем порт 3001 чтобы не конфликтовать с другими проектами
+# Порт, на котором приложение доступно на хосте (прокси Nginx направляет сюда)
+# 3500 выбран, чтобы не конфликтовать с другими проектами на сервере
+PORT=3500
 
 # Функции для логирования
 log_info() {
@@ -120,6 +122,11 @@ EOF
 create_docker_compose() {
     log_info "Создание docker-compose.yml..."
     
+    # ВАЖНО: используем обычный (не quoted) heredoc, т.к. переменные, такие как
+    # ${CONTAINER_NAME}, ${NETWORK_NAME}, ${PORT} должны подставляться на этапе
+    # генерации файла. NEXTAUTH_SECRET мы теперь берём из .env, поэтому его
+    # значение должно быть пустым в оболочке или уже существовать в .env —
+    # docker-compose сам подтянет его из .env во время запуска.
     cat > docker-compose.yml << EOF
 version: '3.8'
 
@@ -128,12 +135,17 @@ services:
     build: .
     container_name: ${CONTAINER_NAME}
     restart: unless-stopped
+    env_file:
+      - .env
     ports:
       - "${PORT}:3000"
     environment:
       - DATABASE_URL=postgresql://excel_user:excel_password@db:5432/excel_course
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      # ВАЖНО: значение будет взято docker-compose из файла .env при запуске
+      - NEXTAUTH_SECRET=
       - NEXTAUTH_URL=https://${DOMAIN}
+      - AUTH_TRUST_HOST=true
+      - AUTH_URL=https://${DOMAIN}
       - UPLOAD_DIR=./public/uploads
       - MAX_FILE_SIZE=52428800
       - PASS_THRESHOLD_PERCENT=50
@@ -182,6 +194,8 @@ DATABASE_URL="postgresql://excel_user:excel_password@localhost:5432/excel_course
 # NextAuth секрет
 NEXTAUTH_SECRET="${NEXTAUTH_SECRET}"
 NEXTAUTH_URL="https://${DOMAIN}"
+AUTH_TRUST_HOST=true
+AUTH_URL="https://${DOMAIN}"
 
 # Файловое хранилище
 UPLOAD_DIR="./public/uploads"
@@ -352,8 +366,9 @@ deploy() {
     
     # Создание необходимых файлов
     create_dockerfile
-    create_docker_compose
+    # Сначала .env, затем compose — чтобы переменные были доступны docker-compose
     create_env_file
+    create_docker_compose
     create_nginx_config
     create_pm2_config
     create_management_script
