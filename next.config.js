@@ -37,9 +37,6 @@ const nextConfig = {
       },
     ];
   },
-  
-  // Настройки для предотвращения статического рендеринга API роутов
-  serverExternalPackages: ['bcryptjs'],
 };
 
 module.exports = nextConfig;
