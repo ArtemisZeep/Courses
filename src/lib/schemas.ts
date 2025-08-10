@@ -66,7 +66,7 @@ export const LessonReadSchema = z.object({
 
 // Схема оценки задания
 export const GradeSubmissionSchema = z.object({
-  grade: z.number().int().min(0).max(100, 'Оценка должна быть от 0 до 100'),
+  grade: z.number().int().min(0).max(5, 'Оценка должна быть от 0 до 5 баллов'),
   feedback: z.string().optional(),
 })
 
@@ -98,7 +98,7 @@ export const ProgressSchema = z.object({
       submittedAt: z.string().datetime().optional(),
       fileUrl: z.string().optional(),
       status: z.nativeEnum(SubmissionStatus).optional(),
-      grade: z.number().int().min(0).max(100).optional(),
+      grade: z.number().int().min(0).max(5).optional(),
       feedback: z.string().optional(),
     }),
   })),

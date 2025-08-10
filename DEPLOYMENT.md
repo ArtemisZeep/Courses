@@ -110,11 +110,35 @@ npx prisma db seed
 
 ### Бэкапы
 
-**Автоматический бэкап (cron):**
+**Автоматический бэкап (Node.js cron):**
+Система использует встроенный Node.js cron вместо системного cron для лучшей совместимости с различными серверами.
+
+**Настроенные задачи:**
+- **Ежедневный снапшот:** 22:00 по московскому времени (19:00 UTC)
+- **Еженедельная очистка:** воскресенье 23:00 МСК (20:00 UTC) - удаление снапшотов старше 30 дней
+
+**Зависимости:**
 ```bash
-# Добавьте в crontab
-0 2 * * * pg_dump excel_course > /backups/excel_course_$(date +\%Y\%m\%d).sql
+npm install node-cron
+npm install @types/node-cron --save-dev
 ```
+
+**Система бэкапов:**
+- **Текущий бэкап:** `data/backups/current.json` - обновляется автоматически при любых изменениях
+- **Ежедневные снапшоты:** `data/backups/snapshot_YYYY-MM-DDTHH-MM-SS.json` - создаются в 22:00 по МСК
+- **Автоочистка:** Снапшоты старше 30 дней удаляются автоматически
+
+**API endpoints:**
+- `POST /api/admin/backup/current` - создать/обновить текущий бэкап
+- `POST /api/admin/backup/snapshot` - создать снапшот + обновить текущий
+- `POST /api/admin/backup/cleanup` - очистить старые снапшоты
+
+**Логирование:**
+Cron задачи логируются в консоль сервера с эмодзи для удобства:
+- 🕐 Создание снапшота
+- 🧹 Очистка старых файлов
+- ✅ Успешное выполнение
+- ❌ Ошибки
 
 ## Мониторинг и логи
 
@@ -318,3 +342,301 @@ DEBUG="*" npm start
 ---
 
 🎯 **Успешного развертывания! Ваша платформа обучения Excel готова к продакшену!**
+
+## 🚀 Деплой на Ubuntu сервер
+
+### Автоматический деплой (рекомендуется)
+
+1. **Скопируйте проект на сервер:**
+```bash
+# На вашем локальном компьютере
+git clone <your-repo-url>
+cd excel-course
+tar -czf excel-course.tar.gz .
+scp excel-course.tar.gz user@your-server:/tmp/
+
+# На сервере
+cd /tmp
+tar -xzf excel-course.tar.gz -C /var/www/mapyg.ru/course/
+```
+
+2. **Запустите скрипт деплоя:**
+```bash
+cd /var/www/mapyg.ru/course
+sudo chmod +x deploy.sh
+sudo ./deploy.sh
+```
+
+### Ручной деплой
+
+Если нужен ручной контроль:
+
+1. **Установите зависимости:**
+```bash
+sudo apt update
+sudo apt install -y nodejs npm postgresql nginx curl wget git build-essential
+sudo npm install -g pm2
+```
+
+2. **Настройте базу данных:**
+```bash
+sudo -u postgres psql -c "CREATE USER artemiszeep WITH PASSWORD 'password';"
+sudo -u postgres psql -c "CREATE DATABASE excel_course OWNER artemiszeep;"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE excel_course TO artemiszeep;"
+```
+
+3. **Соберите проект:**
+```bash
+cd /var/www/mapyg.ru/course
+npm install --production
+npm run build
+npx prisma db push
+npx prisma db seed
+```
+
+4. **Настройте PM2:**
+```bash
+pm2 start ecosystem.config.js --env production
+pm2 save
+pm2 startup
+```
+
+5. **Настройте Nginx** (добавьте в `/etc/nginx/sites-available/mapyg.ru`):
+```nginx
+location /course {
+    proxy_pass http://127.0.0.1:3001;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_cache_bypass $http_upgrade;
+    
+    proxy_connect_timeout 60s;
+    proxy_send_timeout 60s;
+    proxy_read_timeout 60s;
+    
+    proxy_buffering on;
+    proxy_buffer_size 4k;
+    proxy_buffers 8 4k;
+    
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+}
+
+location /course/_next/static {
+    proxy_pass http://127.0.0.1:3001;
+    expires 1y;
+    add_header Cache-Control "public, immutable";
+}
+
+location /course/uploads {
+    proxy_pass http://127.0.0.1:3001;
+    expires 1y;
+    add_header Cache-Control "public, max-age=31536000";
+}
+
+location /course/api {
+    proxy_pass http://127.0.0.1:3001;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_cache_bypass $http_upgrade;
+}
+```
+
+6. **Активируйте сайт и перезапустите Nginx:**
+```bash
+sudo ln -s /etc/nginx/sites-available/mapyg.ru /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+## ✅ Чек-лист деплоя
+
+Перед запуском в продакшене убедитесь:
+
+- [ ] **База данных:** PostgreSQL установлен и настроен
+- [ ] **Node.js:** Версия 18+ установлена
+- [ ] **PM2:** Установлен глобально
+- [ ] **Nginx:** Настроен и работает
+- [ ] **Права доступа:** www-data имеет доступ к файлам
+- [ ] **Порты:** 3001 свободен для приложения
+- [ ] **SSL:** Сертификат настроен (рекомендуется)
+- [ ] **Бэкапы:** Директория `/var/www/mapyg.ru/data/backups/` создана
+- [ ] **Логи:** Директория `/var/log/pm2/` создана
+
+## 🔧 Управление приложением
+
+### PM2 команды
+```bash
+pm2 status                    # Статус всех процессов
+pm2 logs excel-course         # Логи приложения
+pm2 restart excel-course      # Перезапуск
+pm2 stop excel-course         # Остановка
+pm2 delete excel-course       # Удаление процесса
+pm2 save                      # Сохранить конфигурацию
+pm2 startup                   # Автозапуск при перезагрузке
+```
+
+### Nginx команды
+```bash
+nginx -t                      # Проверка конфигурации
+sudo systemctl reload nginx   # Перезагрузка конфигурации
+sudo systemctl restart nginx  # Полный перезапуск
+sudo systemctl status nginx   # Статус сервиса
+```
+
+### База данных
+```bash
+npx prisma studio            # Веб-интерфейс для БД
+npx prisma db push           # Применить миграции
+npx prisma db seed           # Заполнить тестовыми данными
+npx prisma migrate dev       # Создать новую миграцию
+```
+
+## 🆘 Устранение неполадок
+
+### Приложение не запускается
+```bash
+# Проверить логи PM2
+pm2 logs excel-course
+
+# Проверить статус процесса
+pm2 status
+
+# Перезапустить процесс
+pm2 restart excel-course
+
+# Проверить порт
+netstat -tlnp | grep 3001
+```
+
+### Nginx ошибки
+```bash
+# Проверить конфигурацию
+nginx -t
+
+# Проверить статус сервиса
+sudo systemctl status nginx
+
+# Проверить логи
+sudo tail -f /var/log/nginx/error.log
+```
+
+### Проблемы с базой данных
+```bash
+# Проверить статус PostgreSQL
+sudo systemctl status postgresql
+
+# Подключиться к базе данных
+sudo -u postgres psql -d excel_course
+
+# Проверить подключение
+npx prisma db push
+```
+
+### Проблемы с правами доступа
+```bash
+# Исправить права на файлы
+sudo chown -R www-data:www-data /var/www/mapyg.ru/course
+sudo chmod -R 755 /var/www/mapyg.ru/course
+
+# Исправить права на загрузки
+sudo chown -R www-data:www-data /var/www/mapyg.ru/uploads
+sudo chown -R www-data:www-data /var/www/mapyg.ru/data
+```
+
+### Проблемы с бэкапами
+```bash
+# Проверить директорию бэкапов
+ls -la /var/www/mapyg.ru/data/backups/
+
+# Создать бэкап вручную
+curl -X POST http://localhost:3001/api/admin/backup/snapshot
+
+# Проверить cron задачи
+pm2 logs excel-course | grep CRON
+```
+
+## 🔄 Обновление приложения
+
+### Автоматическое обновление
+```bash
+cd /var/www/mapyg.ru/course
+git pull
+npm install --production
+npm run build
+npx prisma db push
+pm2 restart excel-course
+```
+
+### Ручное обновление
+```bash
+# Остановить приложение
+pm2 stop excel-course
+
+# Обновить код
+cd /var/www/mapyg.ru/course
+git pull
+
+# Установить зависимости
+npm install --production
+
+# Собрать проект
+npm run build
+
+# Обновить базу данных
+npx prisma db push
+
+# Запустить приложение
+pm2 start excel-course
+```
+
+## 📊 Мониторинг
+
+### Логи
+- **PM2 логи:** `/var/log/pm2/`
+- **Nginx логи:** `/var/log/nginx/`
+- **Системные логи:** `journalctl -u nginx`
+
+### Бэкапы
+- **Текущий бэкап:** `/var/www/mapyg.ru/data/backups/current.json`
+- **Снапшоты:** `/var/www/mapyg.ru/data/backups/snapshot_*.json`
+
+### Статус сервисов
+```bash
+# Проверить все сервисы
+sudo systemctl status nginx postgresql
+pm2 status
+```
+
+## 🔒 Безопасность
+
+### Рекомендации
+- [ ] Настройте SSL сертификат (Let's Encrypt)
+- [ ] Измените пароли по умолчанию
+- [ ] Настройте firewall (ufw)
+- [ ] Регулярно обновляйте систему
+- [ ] Настройте мониторинг безопасности
+
+### SSL с Let's Encrypt
+```bash
+# Установить Certbot
+sudo apt install certbot python3-certbot-nginx
+
+# Получить сертификат
+sudo certbot --nginx -d mapyg.ru
+
+# Автообновление
+sudo crontab -e
+# Добавить: 0 12 * * * /usr/bin/certbot renew --quiet
+```

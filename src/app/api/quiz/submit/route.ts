@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { writeCurrentBackup } from '@/lib/backup'
 
 // Отправить результаты теста
 export async function POST(request: NextRequest) {
   try {
     const session = await auth()
+    console.log('Session:', session)
+    
     if (!session) {
       return NextResponse.json({ error: 'Необходима авторизация' }, { status: 401 })
     }
+
+    console.log('Session user ID:', session.user.id)
 
     const body = await request.json()
     const { moduleId, answers } = body
@@ -40,9 +45,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Проверяем, что пользователь существует
+    console.log('Looking for user with ID:', session.user.id)
     const user = await db.user.findUnique({
       where: { id: session.user.id },
     })
+
+    console.log('Found user:', user)
 
     if (!user) {
       return NextResponse.json({ error: 'Пользователь не найден' }, { status: 404 })
@@ -78,7 +86,13 @@ export async function POST(request: NextRequest) {
     const scorePercent = Math.round((correctAnswers / totalQuestions) * 100)
     const attemptId = `attempt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
-    console.log('Saving quiz result with answers:', answers)
+    // Определяем лучший предыдущий результат ДО сохранения нового
+    const prevAgg = await db.quizResult.aggregate({
+      where: { userId: session.user.id, moduleId },
+      _max: { scorePercent: true },
+    })
+    const prevBest = prevAgg._max.scorePercent ?? 0
+
     // Сохраняем результат
     const quizResult = await db.quizResult.create({
       data: {
@@ -90,6 +104,21 @@ export async function POST(request: NextRequest) {
         submittedAt: new Date(),
       },
     })
+
+    // Начисляем баллы за рейтинг по дельте лучшего результата
+    // Если улучшил с 40% до 50% → +10 баллов, если первая попытка → +scorePercent
+    const ratingPoints = Math.max(scorePercent - prevBest, 0)
+    await db.user.update({
+      where: { id: session.user.id },
+      data: {
+        rating: {
+          increment: ratingPoints
+        }
+      }
+    })
+
+    // Асинхронно обновляем "текущий" бэкап
+    writeCurrentBackup().catch(() => {})
 
     // Подготавливаем детальную информацию об ответах для показа результатов
     const detailedAnswers = module.questions.map(question => {
@@ -106,14 +135,12 @@ export async function POST(request: NextRequest) {
                    correctOptions.every(opt => userSelectedOptions.includes(opt))
       }
 
-      const answerDetail = {
+      return {
         questionId: question.id,
         selectedOptionIds: userSelectedOptions,
         correctOptionIds: correctOptions,
         isCorrect: isCorrect
       }
-      console.log(`Detailed answer for question ${question.id}:`, answerDetail)
-      return answerDetail
     })
 
     return NextResponse.json({
@@ -190,7 +217,6 @@ export async function GET(request: NextRequest) {
 
     // Восстанавливаем детальную информацию об ответах из JSON
     const storedAnswers = lastResult.answers as any[]
-    console.log('Stored answers from DB:', storedAnswers)
     const detailedAnswers = module.questions.map(question => {
       const userAnswer = storedAnswers.find((a: any) => a.questionId === question.id)
       const userSelectedOptions = userAnswer?.selectedOptionIds || []
@@ -205,14 +231,12 @@ export async function GET(request: NextRequest) {
                    correctOptions.every(opt => userSelectedOptions.includes(opt))
       }
 
-      const answerDetail = {
+      return {
         questionId: question.id,
         selectedOptionIds: userSelectedOptions,
         correctOptionIds: correctOptions,
         isCorrect: isCorrect
       }
-      console.log(`Answer detail for question ${question.id}:`, answerDetail)
-      return answerDetail
     })
 
     return NextResponse.json({

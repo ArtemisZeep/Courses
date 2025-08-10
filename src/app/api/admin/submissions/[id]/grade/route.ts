@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { GradeSubmissionSchema } from '@/lib/schemas'
+import { writeCurrentBackup } from '@/lib/backup'
 
 interface RouteContext {
   params: Promise<{ id: string }>
@@ -19,20 +21,23 @@ export async function POST(request: Request, { params }: RouteContext) {
     }
 
     const body = await request.json()
-    const { grade, feedback } = body
+    const validatedFields = GradeSubmissionSchema.safeParse(body)
 
-    if (grade === undefined || (grade !== 'PASSED' && grade !== 'FAILED')) {
+    if (!validatedFields.success) {
       return NextResponse.json(
-        { error: 'Оценка должна быть "PASSED" или "FAILED"' },
+        { error: 'Неверные данные', details: validatedFields.error.issues },
         { status: 400 }
       )
     }
+
+    const { grade, feedback } = validatedFields.data
 
     const { id } = await params
 
     // Проверяем, существует ли задание
     const existingSubmission = await db.submission.findUnique({
       where: { id },
+      select: { userId: true, grade: true, status: true }
     })
 
     if (!existingSubmission) {
@@ -62,6 +67,25 @@ export async function POST(request: Request, { params }: RouteContext) {
         },
       },
     })
+
+    // Начисляем баллы за рейтинг за задание с учетом возможного переоценивания
+    // 5 -> 100, 4 -> 80, 3 -> 60, 2 -> 40, 1 -> 20, 0 -> 0
+    const newPoints = grade * 20
+    const previousPoints = (existingSubmission.grade ?? 0) * 20
+    const delta = newPoints - previousPoints
+    if (delta !== 0) {
+      await db.user.update({
+        where: { id: submission.userId },
+        data: {
+          rating: {
+            increment: delta,
+          },
+        },
+      })
+    }
+
+    // Асинхронно обновляем текущий бэкап
+    writeCurrentBackup().catch(() => {})
 
     return NextResponse.json({
       message: 'Оценка успешно сохранена',

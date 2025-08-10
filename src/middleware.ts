@@ -3,12 +3,15 @@ import { NextResponse } from 'next/server'
 
 export default auth((req) => {
   const isAuth = !!req.auth
-  const isAuthPage = req.nextUrl.pathname.startsWith('/auth')
+  const pathname = req.nextUrl.pathname
+  const isAuthPage = pathname.startsWith('/auth')
+  const isSignOutPage = pathname.startsWith('/auth/signout')
   const isAdminPage = req.nextUrl.pathname.startsWith('/admin')
   const isDashboard = req.nextUrl.pathname.startsWith('/dashboard')
 
   // Если пользователь на странице аутентификации и уже авторизован
-  if (isAuthPage && isAuth) {
+  // Разрешаем доступ к странице выхода даже авторизованным
+  if (isAuthPage && isAuth && !isSignOutPage) {
     return NextResponse.redirect(new URL('/dashboard', req.url))
   }
 

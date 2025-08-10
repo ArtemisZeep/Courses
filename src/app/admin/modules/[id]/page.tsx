@@ -147,10 +147,11 @@ export default function EditModulePage() {
               </h1>
               <p className="text-gray-600">Измените данные модуля курса</p>
             </div>
-            <Button
+              <Button
               variant="outline"
               onClick={() => {
-                window.location.href = '/api/auth/signout'
+                  console.log('[Admin/Module] Logout clicked. Navigating to /auth/signout')
+                  window.location.href = '/auth/signout'
               }}
             >
               Выход

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { getOrCreateProgress } from '@/lib/progress-store'
+import { PASS_THRESHOLD_PERCENT } from '@/lib/constants'
 
 // Получить модули с учетом прогресса студента
 export async function GET() {
@@ -81,6 +82,21 @@ export async function GET() {
     })
 
     // Объединяем данные модулей с прогрессом
+    // Подтягиваем лучшие результаты тестов по модулям
+    const quizResults = await db.quizResult.findMany({
+      where: { userId: session.user.id },
+      select: { moduleId: true, scorePercent: true },
+      orderBy: { submittedAt: 'desc' }
+    })
+
+    const bestScoreByModule = new Map<string, number>()
+    for (const r of quizResults) {
+      const cur = bestScoreByModule.get(r.moduleId)
+      if (cur === undefined || r.scorePercent > cur) {
+        bestScoreByModule.set(r.moduleId, r.scorePercent)
+      }
+    }
+
     const modulesWithProgress = modules.map(module => {
       const moduleProgress = progress.modules.find(m => m.moduleId === module.id)
       
@@ -95,7 +111,8 @@ export async function GET() {
           grade: s.grade,
         })),
       }
-      
+      const bestScorePercent = bestScoreByModule.get(module.id)
+
       return {
         ...module,
         progress: {
@@ -105,20 +122,52 @@ export async function GET() {
             lessonsRead: [],
             quiz: {
               attempts: [],
-              bestScorePercent: undefined,
+              bestScorePercent: bestScorePercent,
               passedAt: undefined,
             },
             assignment: {
               submitted: false,
             },
           }),
+          // Обновляем bestScore из БД, если есть
+          quiz: {
+            ...(moduleProgress?.quiz || { attempts: [] }),
+            bestScorePercent,
+            passedAt: moduleProgress?.quiz.passedAt,
+          },
           assignments: assignmentsInfo,
         },
       }
     })
 
-    // Показываем все модули (все доступны)
+    // Пересчитываем статус доступности/прохождения модулей
+    let previousPassed = false
     const visibleModules = modulesWithProgress
+      .sort((a, b) => a.order - b.order)
+      .map((m, idx) => {
+        const bestScore = m.progress.quiz.bestScorePercent || 0
+        const hasPassedQuiz = bestScore >= PASS_THRESHOLD_PERCENT
+        const hasSubmittedAssignment = (m.progress.assignments?.completed || 0) > 0
+        const thisPassed = hasPassedQuiz && hasSubmittedAssignment
+
+        let status: 'locked' | 'available' | 'passed' = 'available'
+        if (idx === 0) {
+          status = thisPassed ? 'passed' : 'available'
+        } else {
+          status = previousPassed ? 'available' : 'locked'
+          if (thisPassed) status = 'passed'
+        }
+
+        previousPassed = thisPassed
+
+        return {
+          ...m,
+          progress: {
+            ...m.progress,
+            status,
+          },
+        }
+      })
 
     return NextResponse.json({ modules: visibleModules, allModules: modulesWithProgress })
   } catch (error) {

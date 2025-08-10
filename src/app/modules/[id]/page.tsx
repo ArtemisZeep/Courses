@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import styles from './page.module.css'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -340,10 +341,10 @@ export default function ModulePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Загрузка модуля...</p>
+      <div className={styles.centerScreen}>
+        <div className={styles.textCenter}>
+          <div className={styles.spinnerLg}></div>
+          <p className={styles.muted}>Загрузка модуля...</p>
         </div>
       </div>
     )
@@ -351,62 +352,60 @@ export default function ModulePage() {
 
   if (error || !module) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
+      <div className={styles.centerScreen}>
+        <div className={styles.textCenter}>
           <h1 className="text-2xl font-bold text-red-600 mb-4">Ошибка</h1>
           <p className="text-gray-600 mb-4">{error || 'Модуль не найден'}</p>
-          <Link href="/dashboard">
-            <Button>Вернуться к курсам</Button>
-          </Link>
+          <Link href="/dashboard" className={styles.backLink}>Вернуться к курсам</Link>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={styles.page}>
       {/* Header */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+      <header className={styles.header}>
+        <div className={styles.container}>
+          <div className={styles.headerBar}>
             <div>
-              <Link href="/dashboard" className="text-blue-600 hover:underline text-sm">
+              <Link href="/dashboard" className={styles.backLink}>
                 ← Вернуться к курсам
               </Link>
-              <h1 className="text-3xl font-bold text-gray-900 mt-2">
+              <h1 className={styles.moduleTitle}>
                 {module.title}
               </h1>
-              <p className="text-gray-600">{module.description}</p>
+              <p className={styles.moduleDesc}>{module.description}</p>
             </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className={styles.main}>
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className={styles.tabsList}>
             <TabsTrigger value="lessons">📚 Уроки ({module.lessons.length})</TabsTrigger>
             <TabsTrigger value="quiz">🧪 Тест ({module.questions.length})</TabsTrigger>
             <TabsTrigger value="assignment">💼 Задание</TabsTrigger>
           </TabsList>
 
           {/* Lessons Tab */}
-          <TabsContent value="lessons" className="space-y-6">
+          <TabsContent value="lessons" className={styles.tabContent}>
             {module.lessons.length === 0 ? (
               <Card>
                 <CardContent className="text-center py-8">
-                  <p className="text-gray-500">В этом модуле пока нет уроков</p>
+                  <p className={styles.emptyText}>В этом модуле пока нет уроков</p>
                 </CardContent>
               </Card>
             ) : (
               module.lessons.map((lesson) => (
                 <Card key={lesson.id}>
                   <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
+                    <CardTitle className={styles.cardTitleRow}>
                       {lesson.title}
                       {readLessons.includes(lesson.id) ? (
-                        <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                        <Badge variant="outline" className={styles.badgeSuccessOutline}>
                           ✓ Прочитано
                         </Badge>
                       ) : (
@@ -427,11 +426,11 @@ export default function ModulePage() {
                       />
                     ) : lesson.contentHtml ? (
                       <div 
-                        className="prose max-w-none"
+                        className={styles.proseNoLimit}
                         dangerouslySetInnerHTML={{ __html: lesson.contentHtml }}
                       />
                     ) : (
-                      <p className="text-gray-500">Контент урока не найден</p>
+                      <p className={styles.emptyText}>Контент урока не найден</p>
                     )}
                   </CardContent>
                 </Card>
@@ -440,7 +439,7 @@ export default function ModulePage() {
           </TabsContent>
 
           {/* Quiz Tab */}
-          <TabsContent value="quiz" className="space-y-6">
+          <TabsContent value="quiz" className={styles.tabContent}>
             {showQuizSuccess ? (
               <QuizSuccess
                 moduleId={moduleId}
@@ -449,21 +448,16 @@ export default function ModulePage() {
             ) : (
               <>
                 {error && (
-                  <Card className="border-red-200 bg-red-50">
-                    <CardContent className="pt-6">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-red-600">❌</span>
+                  <Card className={styles.errorCard}>
+                    <CardContent className={styles.pt6}>
+                      <div className={styles.errorRow}>
+                        <span className={styles.errorIcon}>❌</span>
                         <div>
-                          <h4 className="font-semibold text-red-800">Ошибка</h4>
-                          <pre className="text-sm text-red-700 whitespace-pre-wrap">{error}</pre>
+                          <h4 className={styles.errorTitle}>Ошибка</h4>
+                          <pre className={styles.errorPre}>{error}</pre>
                         </div>
                       </div>
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="mt-3"
-                        onClick={() => setError('')}
-                      >
+                      <Button variant="outline" size="sm" className={styles.mt3} onClick={() => setError('')}>
                         Закрыть
                       </Button>
                     </CardContent>
@@ -473,7 +467,7 @@ export default function ModulePage() {
                 {module.questions.length === 0 ? (
                   <Card>
                     <CardContent className="text-center py-8">
-                      <p className="text-gray-500">В этом модуле пока нет вопросов</p>
+                      <p className={styles.emptyText}>В этом модуле пока нет вопросов</p>
                     </CardContent>
                   </Card>
                 ) : (
@@ -490,26 +484,26 @@ export default function ModulePage() {
           </TabsContent>
 
           {/* Assignment Tab */}
-          <TabsContent value="assignment" className="space-y-6">
+          <TabsContent value="assignment" className={styles.tabContent}>
             {module.assignments.length === 0 ? (
               <Card>
                 <CardContent className="text-center py-8">
-                  <p className="text-gray-500">В этом модуле пока нет заданий</p>
+                  <p className={styles.emptyText}>В этом модуле пока нет заданий</p>
                 </CardContent>
               </Card>
             ) : (
               module.assignments.map((assignment) => (
                 <Card key={assignment.id}>
                   <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
+                    <CardTitle className={styles.cardTitleRow}>
                       {assignment.title}
-                      <Badge variant="outline" className="text-xs">
+                      <Badge variant="outline" className={styles.assignmentMeta}>
                         Новое
                       </Badge>
                     </CardTitle>
                     <CardDescription>
                       <div 
-                        className="prose prose-sm max-w-none"
+                        className={styles.proseSmNoLimit}
                         dangerouslySetInnerHTML={{ __html: assignment.description }}
                       />
                     </CardDescription>
@@ -519,33 +513,33 @@ export default function ModulePage() {
                       <div className="space-y-3">
                         <Button 
                           onClick={() => window.open(assignment.fileUrl, '_blank')}
-                          className="w-full"
+                          className={styles.btnFull}
                         >
                           📎 Скачать файл задания
                         </Button>
-                        <p className="text-xs text-gray-500">
+                        <p className={styles.infoNote}>
                           Файл: {assignment.fileUrl.split('/').pop()}
                         </p>
                       </div>
                     ) : (
-                      <p className="text-gray-500 text-center py-4">
+                      <p className={styles.centerNote}>
                         Файл задания не прикреплен
                       </p>
                     )}
 
-                    <div className="border-t pt-4">
-                      <h4 className="font-semibold mb-2">Загрузить решение</h4>
+                    <div className={styles.sectionBorderTop}>
+                      <h4 className={styles.sectionTitle}>Загрузить решение</h4>
                       
                       {/* Показываем уже загруженное решение */}
                       {submissions[assignment.id] && (
-                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
-                          <div className="flex items-center justify-between">
+                        <div className={styles.uploadInfoBox}>
+                          <div className={styles.rowBetween}>
                             <div>
-                              <p className="text-blue-800 font-medium">✅ Решение загружено</p>
-                              <p className="text-blue-600 text-sm">
+                              <p className={styles.textBlueStrong}>✅ Решение загружено</p>
+                              <p className={styles.textBlue}>
                                 Файл: {submissions[assignment.id].fileUrl.split('/').pop()}
                               </p>
-                              <p className="text-blue-500 text-xs">
+                              <p className={styles.textBlueLight}>
                                 Загружено: {new Date(submissions[assignment.id].submittedAt).toLocaleDateString()}
                               </p>
                             </div>
@@ -560,10 +554,10 @@ export default function ModulePage() {
                           
                           {/* Показываем оценку и комментарий */}
                           {submissionDetails[assignment.id] && (
-                            <div className="mt-3 pt-3 border-t border-blue-200">
+                            <div className={styles.gradeBlock}>
                               {submissionDetails[assignment.id].grade !== null && submissionDetails[assignment.id].grade !== undefined && (
-                                <div className="flex items-center gap-2 mb-2">
-                                  <span className="text-sm font-medium">Оценка:</span>
+                                <div className={styles.gradeRow}>
+                                  <span className={styles.gradeLabel}>Оценка:</span>
                                   <Badge 
                                     variant={submissionDetails[assignment.id].grade >= 3 ? 'default' : 'destructive'}
                                     className="text-xs"
@@ -574,14 +568,14 @@ export default function ModulePage() {
                               )}
                               {submissionDetails[assignment.id].feedback && (
                                 <div className="mt-2">
-                                  <p className="text-sm font-medium text-gray-700 mb-1">Комментарий преподавателя:</p>
-                                  <div className="bg-white border border-gray-200 rounded p-2 text-sm text-gray-600">
+                                  <p className={styles.teacherLabel}>Комментарий преподавателя:</p>
+                                  <div className={styles.teacherBox}>
                                     {submissionDetails[assignment.id].feedback}
                                   </div>
                                 </div>
                               )}
                               {submissionDetails[assignment.id].gradedAt && (
-                                <p className="text-xs text-gray-500 mt-2">
+                                <p className={styles.teacherNote}>
                                   Проверено: {new Date(submissionDetails[assignment.id].gradedAt).toLocaleDateString()}
                                 </p>
                               )}
@@ -591,37 +585,37 @@ export default function ModulePage() {
                       )}
                       
                       {uploadError && (
-                        <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-3">
+                        <div className={styles.errorBox}>
                           <p className="text-red-700 text-sm">{uploadError}</p>
                         </div>
                       )}
                       
                       {uploadSuccess && (
-                        <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-3">
+                        <div className={styles.successBox}>
                           <p className="text-green-700 text-sm">{uploadSuccess}</p>
                         </div>
                       )}
                       
-                      <div className="space-y-3">
-                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                      <div className={styles.uploader}>
+                        <div className={styles.dropzone}>
                           <input
                             id="file-input"
                             type="file"
                             onChange={handleFileChange}
                             accept=".xlsx,.xls,.pdf,.zip,.doc,.docx"
-                            className="hidden"
+                            className={styles.hiddenInput}
                           />
-                          <div className="text-center">
-                            <p className="text-gray-500 mb-2">
+                          <div className={styles.uploadCenter}>
+                            <p className={styles.uploadHelp}>
                               {selectedFile ? `Выбран файл: ${selectedFile.name}` : 'Перетащите файл сюда или нажмите для выбора'}
                             </p>
-                            <p className="text-xs text-gray-400 mb-3">
+                            <p className={styles.uploadHint}>
                               Поддерживаются: .xlsx, .xls, .pdf, .zip, .doc, .docx (до 50 МБ)
                             </p>
                             <Button 
                               variant="outline" 
                               onClick={() => document.getElementById('file-input')?.click()}
-                              className="mb-2"
+                              className={styles.mb2}
                             >
                               {selectedFile ? 'Изменить файл' : 'Выбрать файл'}
                             </Button>
@@ -632,11 +626,11 @@ export default function ModulePage() {
                           <Button 
                             onClick={() => handleUploadSubmission(assignment.id)}
                             disabled={uploading}
-                            className="w-full"
+                            className={styles.btnFull}
                           >
                             {uploading ? (
                               <>
-                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                                <div className={styles.spinnerSm}></div>
                                 Загрузка...
                               </>
                             ) : (

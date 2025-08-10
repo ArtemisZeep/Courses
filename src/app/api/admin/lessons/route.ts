@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { LessonSchema } from '@/lib/schemas'
+import { writeCurrentBackup } from '@/lib/backup'
 
 // Получить все уроки модуля
 export async function GET(request: Request) {
@@ -92,6 +93,7 @@ export async function POST(request: Request) {
       },
     })
 
+    writeCurrentBackup().catch(() => {})
     return NextResponse.json(
       { message: 'Урок успешно создан', lesson },
       { status: 201 }

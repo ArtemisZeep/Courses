@@ -18,7 +18,7 @@ interface Submission {
   moduleId: string
   fileUrl: string
   status: 'NEW' | 'GRADED'
-  grade?: number // Баллы от 0 до 5
+  grade?: number // Оценка от 0 до 5 баллов
   feedback?: string
   submittedAt: string
   gradedAt?: string
@@ -39,7 +39,7 @@ export default function SubmissionsPage() {
   const [error, setError] = useState('')
   const [selectedSubmission, setSelectedSubmission] = useState<Submission | null>(null)
   const [grading, setGrading] = useState(false)
-  const [grade, setGrade] = useState<number | null>(null)
+  const [grade, setGrade] = useState('')
   const [feedback, setFeedback] = useState('')
   const [showFeedbackModal, setShowFeedbackModal] = useState(false)
   const [selectedFeedback, setSelectedFeedback] = useState('')
@@ -72,7 +72,7 @@ export default function SubmissionsPage() {
 
   const handleGrade = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!selectedSubmission || grade === null) return
+    if (!selectedSubmission) return
 
     setGrading(true)
     try {
@@ -82,7 +82,7 @@ export default function SubmissionsPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          grade,
+          grade: parseInt(grade),
           feedback,
         }),
       })
@@ -93,11 +93,11 @@ export default function SubmissionsPage() {
         // Обновляем список заданий
         setSubmissions(submissions.map(s => 
           s.id === selectedSubmission.id 
-            ? { ...s, grade, feedback, status: 'GRADED' as const }
+            ? { ...s, grade: parseInt(grade), feedback, status: 'GRADED' as const }
             : s
         ))
         setSelectedSubmission(null)
-        setGrade(null)
+        setGrade('')
         setFeedback('')
         alert('Оценка сохранена')
       } else {
@@ -158,10 +158,11 @@ export default function SubmissionsPage() {
               </h1>
               <p className="text-gray-600">Просмотр и оценка отправленных решений</p>
             </div>
-            <Button
+                <Button
               variant="outline"
               onClick={() => {
-                window.location.href = '/api/auth/signout'
+                    console.log('[Admin/Submissions] Logout clicked. Navigating to /auth/signout')
+                    window.location.href = '/auth/signout'
               }}
             >
               Выход
@@ -220,14 +221,20 @@ export default function SubmissionsPage() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Зачтено</CardTitle>
+              <CardTitle className="text-sm font-medium">Средняя оценка</CardTitle>
               <Badge variant="outline">
-                {submissions.filter(s => s.grade === 'PASSED').length}
+                {submissions.filter(s => s.grade !== null && s.grade !== undefined).length > 0 
+                  ? (submissions.filter(s => s.grade !== null && s.grade !== undefined).reduce((sum, s) => sum + (s.grade || 0), 0) / submissions.filter(s => s.grade !== null && s.grade !== undefined).length).toFixed(1)
+                  : '0'
+                }
               </Badge>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {submissions.filter(s => s.grade === 'PASSED').length}
+                {submissions.filter(s => s.grade !== null && s.grade !== undefined).length > 0 
+                  ? (submissions.filter(s => s.grade !== null && s.grade !== undefined).reduce((sum, s) => sum + (s.grade || 0), 0) / submissions.filter(s => s.grade !== null && s.grade !== undefined).length).toFixed(1)
+                  : '0'
+                }/5
               </div>
             </CardContent>
           </Card>
@@ -273,12 +280,10 @@ export default function SubmissionsPage() {
                         <TableCell>{submission.module.title}</TableCell>
                         <TableCell>{getStatusBadge(submission.status)}</TableCell>
                         <TableCell>
-                          {submission.grade !== null && submission.grade !== undefined ? (
+                          {submission.grade !== null && submission.grade !== undefined && (
                             <Badge variant={submission.grade >= 3 ? 'default' : 'destructive'}>
-                              {submission.grade} {submission.grade === 1 ? 'балл' : submission.grade < 5 ? 'балла' : 'баллов'}
+                              {submission.grade}/5 баллов
                             </Badge>
-                          ) : (
-                            <span className="text-gray-400">Не оценено</span>
                           )}
                         </TableCell>
                         <TableCell>
@@ -295,7 +300,7 @@ export default function SubmissionsPage() {
                                 variant="ghost"
                                 className="text-xs p-0 h-auto mt-1"
                                 onClick={() => {
-                                  setSelectedFeedback(submission.feedback)
+                                  setSelectedFeedback(submission.feedback || '')
                                   setShowFeedbackModal(true)
                                 }}
                               >
@@ -369,11 +374,11 @@ export default function SubmissionsPage() {
 
               <form onSubmit={handleGrade} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="grade">Оценка</Label>
+                  <Label htmlFor="grade">Оценка (от 0 до 5 баллов)</Label>
                   <select
                     id="grade"
-                    value={grade === null ? "" : grade.toString()}
-                    onChange={(e) => setGrade(e.target.value === "" ? null : parseInt(e.target.value))}
+                    value={grade}
+                    onChange={(e) => setGrade(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   >
@@ -407,7 +412,7 @@ export default function SubmissionsPage() {
                     variant="outline"
                     onClick={() => {
                       setSelectedSubmission(null)
-                      setGrade(null)
+                      setGrade('')
                       setFeedback('')
                     }}
                   >

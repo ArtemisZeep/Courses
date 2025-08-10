@@ -1,0 +1,25 @@
+.container { display:flex; align-items:center; justify-content:center; min-height:400px; }
+
+.card { width:100%; max-width:28rem; text-align:center; }
+
+.iconWrap { display:flex; justify-content:center; margin-bottom:1rem; }
+
+.icon { width:4rem; height:4rem; color:#22c55e; }
+
+.title { font-size:1.5rem; line-height:2rem; font-weight:700; color:#16a34a; }
+
+.content { display:flex; flex-direction:column; gap:1.5rem; }
+
+.muted { color:#4b5563; }
+
+.muted p:first-child { margin-bottom:0.5rem; }
+
+.actions { display:flex; flex-direction:column; gap:0.75rem; }
+
+.fullWidthBtn { width:100%; }
+
+.note { font-size:0.875rem; line-height:1.25rem; color:#6b7280; }
+
+.backIcon { width:1rem; height:1rem; margin-right:0.5rem; }
+
+

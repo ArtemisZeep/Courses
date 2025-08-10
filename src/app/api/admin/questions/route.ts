@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { writeCurrentBackup } from '@/lib/backup'
 
 // Получить вопросы для модуля
 export async function GET(request: Request) {
@@ -125,6 +126,8 @@ export async function POST(request: Request) {
       },
     })
 
+    // Бэкапим текущее состояние
+    writeCurrentBackup().catch(() => {})
     return NextResponse.json(
       { message: 'Вопрос успешно создан', question },
       { status: 201 }

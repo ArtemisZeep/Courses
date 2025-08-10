@@ -255,10 +255,11 @@ export default function BulkQuestionsPage() {
               </h1>
               <p className="text-gray-600">Загрузите множество вопросов через JSON</p>
             </div>
-            <Button
+                <Button
               variant="outline"
               onClick={() => {
-                window.location.href = '/api/auth/signout'
+                    console.log('[Admin/Questions] Logout clicked. Navigating to /auth/signout')
+                    window.location.href = '/auth/signout'
               }}
             >
               Выход

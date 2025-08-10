@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { writeFile } from 'fs/promises'
+import { writeCurrentBackup } from '@/lib/backup'
 import { join } from 'path'
 
 // Получить все задания
@@ -132,6 +133,8 @@ export async function POST(request: Request) {
       },
     })
 
+    // обновляем текущий бэкап
+    writeCurrentBackup().catch(() => {})
     return NextResponse.json(
       { message: 'Задание успешно создано', assignment },
       { status: 201 }

@@ -261,10 +261,11 @@ export default function AssignmentsPage() {
               </h1>
               <p className="text-gray-600">Создание и управление практическими заданиями</p>
             </div>
-            <Button
+                <Button
               variant="outline"
               onClick={() => {
-                window.location.href = '/api/auth/signout'
+                    console.log('[Admin/Assignments] Logout clicked. Navigating to /auth/signout')
+                    window.location.href = '/auth/signout'
               }}
             >
               Выход

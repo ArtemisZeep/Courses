@@ -102,10 +102,11 @@ export default function AdminPage() {
               <Link href="/dashboard">
                 <Button variant="outline">К курсам</Button>
               </Link>
-              <Button
+            <Button
                 variant="outline"
                 onClick={() => {
-                  window.location.href = '/api/auth/signout'
+                console.log('[Admin] Logout clicked. Navigating to /auth/signout')
+                window.location.href = '/auth/signout'
                 }}
               >
                 Выход

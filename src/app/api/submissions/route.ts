@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { writeFile } from 'fs/promises'
 import { join } from 'path'
+import { writeCurrentBackup } from '@/lib/backup'
 
 // Получить все решения студента
 export async function GET() {
@@ -78,7 +79,10 @@ export async function POST(request: Request) {
     // Проверяем, существует ли задание
     const assignment = await db.assignment.findUnique({
       where: { id: assignmentId },
-      include: {
+      select: {
+        id: true,
+        title: true,
+        moduleId: true,
         module: {
           select: {
             title: true,
@@ -191,6 +195,9 @@ export async function POST(request: Request) {
         },
       })
     }
+
+    // Асинхронно обновляем текущий бэкап после записи
+    writeCurrentBackup().catch(() => {})
 
     return NextResponse.json(
       { 

@@ -17,6 +17,7 @@ model User {
   name          String
   password      String
   isAdmin       Boolean   @default(false)
+  rating        Int       @default(0) // Рейтинг пользователя
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   
@@ -127,7 +128,7 @@ model Submission {
   assignmentId String?          // Связь с заданием (опционально)
   fileUrl      String
   status       SubmissionStatus @default(NEW)
-  grade        Int?             // Оценка от 1 до 5
+  grade        Int?             // Оценка от 0 до 5 баллов
   feedback     String?
   submittedAt  DateTime         @default(now())
   gradedAt     DateTime?

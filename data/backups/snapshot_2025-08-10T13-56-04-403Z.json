@@ -1,0 +1,843 @@
+{
+  "createdAt": "2025-08-10T13:56:04.403Z",
+  "users": [
+    {
+      "id": "cme5mkmgp0000ucfdbbh9jpr1",
+      "email": "admin@example.com",
+      "name": "Администратор",
+      "isAdmin": true,
+      "rating": 250,
+      "createdAt": "2025-08-10T11:53:27.481Z",
+      "updatedAt": "2025-08-10T13:13:25.148Z"
+    },
+    {
+      "id": "cme5mkmn80001ucfd6dtx6vlf",
+      "email": "student@example.com",
+      "name": "Тестовый Студент",
+      "isAdmin": false,
+      "rating": 340,
+      "createdAt": "2025-08-10T11:53:27.716Z",
+      "updatedAt": "2025-08-10T13:35:21.582Z"
+    }
+  ],
+  "modules": [
+    {
+      "id": "cme5mkmnb0002ucfdpon3dma2",
+      "title": "Основы Excel",
+      "description": "Изучите базовые принципы работы с Excel: ячейки, формулы, форматирование",
+      "order": 1,
+      "isActive": true,
+      "attachmentUrl": null,
+      "createdAt": "2025-08-10T11:53:27.719Z",
+      "updatedAt": "2025-08-10T11:53:27.719Z"
+    },
+    {
+      "id": "cme5mkmne0003ucfdjz1m46zg",
+      "title": "Работа с данными",
+      "description": "Импорт, экспорт и обработка данных в Excel",
+      "order": 2,
+      "isActive": true,
+      "attachmentUrl": null,
+      "createdAt": "2025-08-10T11:53:27.722Z",
+      "updatedAt": "2025-08-10T11:53:27.722Z"
+    },
+    {
+      "id": "cme5mkmne0004ucfdak0lpbuc",
+      "title": "Формулы и функции",
+      "description": "Создание сложных формул и использование встроенных функций",
+      "order": 3,
+      "isActive": true,
+      "attachmentUrl": null,
+      "createdAt": "2025-08-10T11:53:27.723Z",
+      "updatedAt": "2025-08-10T11:53:27.723Z"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "cme5mkmnf0006ucfd3bnmoiep",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "title": "Введение в Excel",
+      "order": 1,
+      "googleDocUrl": null,
+      "contentHtml": "<h2>Добро пожаловать в Excel!</h2><p>В этом уроке вы изучите основы работы с электронными таблицами.</p><ul><li>Что такое Excel</li><li>Интерфейс программы</li><li>Основные элементы</li></ul>"
+    },
+    {
+      "id": "cme5mkmnh0008ucfds4jt7fe9",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "title": "Работа с ячейками",
+      "order": 2,
+      "googleDocUrl": null,
+      "contentHtml": "<h2>Работа с ячейками</h2><p>Научитесь выделять, редактировать и форматировать ячейки.</p><p><strong>Важно:</strong> Ячейки - это основа любой таблицы в Excel.</p>"
+    },
+    {
+      "id": "cme5pkf8p0007uctb02x61vpg",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "title": "ТЕСТ",
+      "order": 3,
+      "googleDocUrl": "https://docs.google.com/document/d/1YyZQ1fwk4cVfBd9HP8kpsT4PA_SKHdGAwfV0w-6CDFw/edit?usp=sharing",
+      "contentHtml": null
+    },
+    {
+      "id": "cme5mkmni000aucfd2q1480cd",
+      "moduleId": "cme5mkmne0003ucfdjz1m46zg",
+      "title": "Импорт данных",
+      "order": 1,
+      "googleDocUrl": null,
+      "contentHtml": "<h2>Импорт данных в Excel</h2><p>Научитесь импортировать данные из различных источников.</p><ul><li>Импорт из CSV</li><li>Импорт из базы данных</li><li>Импорт из веб-страниц</li></ul>"
+    },
+    {
+      "id": "cme5mkmnj000cucfdpuro1bh7",
+      "moduleId": "cme5mkmne0003ucfdjz1m46zg",
+      "title": "Обработка данных",
+      "order": 2,
+      "googleDocUrl": null,
+      "contentHtml": "<h2>Обработка данных</h2><p>Изучите методы обработки и анализа данных в Excel.</p><p><strong>Темы:</strong> Фильтрация, сортировка, сводные таблицы</p>"
+    },
+    {
+      "id": "cme5mkmnl000eucfdp0cdggzi",
+      "moduleId": "cme5mkmne0004ucfdak0lpbuc",
+      "title": "Основные формулы",
+      "order": 1,
+      "googleDocUrl": null,
+      "contentHtml": "<h2>Основные формулы Excel</h2><p>Изучите базовые математические и логические формулы.</p><ul><li>СУММ()</li><li>СРЗНАЧ()</li><li>ЕСЛИ()</li><li>СЧЁТ()</li></ul>"
+    },
+    {
+      "id": "cme5mkmnm000gucfdc9kwi7ht",
+      "moduleId": "cme5mkmne0004ucfdak0lpbuc",
+      "title": "Продвинутые функции",
+      "order": 2,
+      "googleDocUrl": null,
+      "contentHtml": "<h2>Продвинутые функции Excel</h2><p>Изучите сложные функции для работы с данными.</p><p><strong>Функции:</strong> ВПР(), ИНДЕКС(), ПОИСКПОЗ(), СУММЕСЛИ()</p>"
+    }
+  ],
+  "questions": [
+    {
+      "id": "cme5mkmnn000iucfdyxnzyrz9",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "title": "Что является фундаментальным строительным блоком в иерархии Excel?",
+      "description": "Выберите правильное определение",
+      "type": "single",
+      "order": 1
+    },
+    {
+      "id": "cme5mkmnr000kucfdvs5aobvn",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "title": "Где отображается фактическое содержимое активной ячейки, особенно формулы?",
+      "description": "Выберите правильное расположение",
+      "type": "single",
+      "order": 2
+    },
+    {
+      "id": "cme5mkmns000mucfdzl2jzhio",
+      "moduleId": "cme5mkmne0003ucfdjz1m46zg",
+      "title": "Какие форматы файлов можно импортировать в Excel?",
+      "description": "Выберите все правильные варианты",
+      "type": "multiple",
+      "order": 1
+    },
+    {
+      "id": "cme5mkmnu000oucfdo8xn2fzd",
+      "moduleId": "cme5mkmne0003ucfdjz1m46zg",
+      "title": "Что такое сводная таблица в Excel?",
+      "description": "Выберите правильное определение",
+      "type": "single",
+      "order": 2
+    },
+    {
+      "id": "cme5mkmnv000qucfdsmbummho",
+      "moduleId": "cme5mkmne0004ucfdak0lpbuc",
+      "title": "Какая функция используется для поиска значения в таблице?",
+      "description": "Выберите правильную функцию",
+      "type": "single",
+      "order": 1
+    },
+    {
+      "id": "cme5mkmnw000sucfd52avv6zl",
+      "moduleId": "cme5mkmne0004ucfdak0lpbuc",
+      "title": "Какие функции используются для работы с текстом?",
+      "description": "Выберите все правильные варианты",
+      "type": "multiple",
+      "order": 2
+    }
+  ],
+  "answerOptions": [
+    {
+      "id": "cme5mkmnx000uucfdpxma1k25",
+      "questionId": "cme5mkmnn000iucfdyxnzyrz9",
+      "text": "Книга",
+      "order": 1,
+      "isCorrect": false
+    },
+    {
+      "id": "cme5mkmo0000wucfdu0jvtvjb",
+      "questionId": "cme5mkmnn000iucfdyxnzyrz9",
+      "text": "Лист",
+      "order": 2,
+      "isCorrect": false
+    },
+    {
+      "id": "cme5mkmo2000yucfdoo8gerwu",
+      "questionId": "cme5mkmnn000iucfdyxnzyrz9",
+      "text": "Ячейка",
+      "order": 3,
+      "isCorrect": true
+    },
+    {
+      "id": "cme5mkmo30010ucfddgmtaz4q",
+      "questionId": "cme5mkmnn000iucfdyxnzyrz9",
+      "text": "Лента",
+      "order": 4,
+      "isCorrect": false
+    },
+    {
+      "id": "cme5mkmo30012ucfdk6haww6x",
+      "questionId": "cme5mkmnr000kucfdvs5aobvn",
+      "text": "В строке состояния",
+      "order": 1,
+      "isCorrect": false
+    },
+    {
+      "id": "cme5mkmo40014ucfdocc792dd",
+      "questionId": "cme5mkmnr000kucfdvs5aobvn",
+      "text": "В поле имени",
+      "order": 2,
+      "isCorrect": false
+    },
+    {
+      "id": "cme5mkmo50016ucfdyutozgjz",
+      "questionId": "cme5mkmnr000kucfdvs5aobvn",
+      "text": "В самой ячейке",
+      "order": 3,
+      "isCorrect": false
+    },
+    {
+      "id": "cme5mkmo60018ucfdzk98amh9",
+      "questionId": "cme5mkmnr000kucfdvs5aobvn",
+      "text": "В строке формул",
+      "order": 4,
+      "isCorrect": true
+    },
+    {
+      "id": "cme5mkmo7001aucfdeftfmzwk",
+      "questionId": "cme5mkmns000mucfdzl2jzhio",
+      "text": "CSV",
+      "order": 1,
+      "isCorrect": true
+    },
+    {
+      "id": "cme5mkmo8001cucfdrjrvyj0u",
+      "questionId": "cme5mkmns000mucfdzl2jzhio",
+      "text": "TXT",
+      "order": 2,
+      "isCorrect": true
+    },
+    {
+      "id": "cme5mkmo9001eucfdi9i0tnxh",
+      "questionId": "cme5mkmns000mucfdzl2jzhio",
+      "text": "XML",
+      "order": 3,
+      "isCorrect": true
+    },
+    {
+      "id": "cme5mkmoa001gucfdge602vyz",
+      "questionId": "cme5mkmns000mucfdzl2jzhio",
+      "text": "MP3",
+      "order": 4,
+      "isCorrect": false
+    },
+    {
+      "id": "cme5mkmoa001iucfdqmg7a3eg",
+      "questionId": "cme5mkmnu000oucfdo8xn2fzd",
+      "text": "Таблица с итоговыми данными",
+      "order": 1,
+      "isCorrect": true
+    },
+    {
+      "id": "cme5mkmob001kucfdqlryn0ef",
+      "questionId": "cme5mkmnu000oucfdo8xn2fzd",
+      "text": "График",
+      "order": 2,
+      "isCorrect": false
+    },
+    {
+      "id": "cme5mkmoc001mucfdfok7ddw8",
+      "questionId": "cme5mkmnu000oucfdo8xn2fzd",
+      "text": "Диаграмма",
+      "order": 3,
+      "isCorrect": false
+    },
+    {
+      "id": "cme5mkmod001oucfd9afzp65h",
+      "questionId": "cme5mkmnu000oucfdo8xn2fzd",
+      "text": "Формула",
+      "order": 4,
+      "isCorrect": false
+    },
+    {
+      "id": "cme5mkmod001qucfdhem6sp16",
+      "questionId": "cme5mkmnv000qucfdsmbummho",
+      "text": "СУММ()",
+      "order": 1,
+      "isCorrect": false
+    },
+    {
+      "id": "cme5mkmoe001sucfdk36bhrqj",
+      "questionId": "cme5mkmnv000qucfdsmbummho",
+      "text": "ВПР()",
+      "order": 2,
+      "isCorrect": true
+    },
+    {
+      "id": "cme5mkmof001uucfdnx2zeof9",
+      "questionId": "cme5mkmnv000qucfdsmbummho",
+      "text": "ЕСЛИ()",
+      "order": 3,
+      "isCorrect": false
+    },
+    {
+      "id": "cme5mkmog001wucfdsgdwu4ay",
+      "questionId": "cme5mkmnv000qucfdsmbummho",
+      "text": "СРЗНАЧ()",
+      "order": 4,
+      "isCorrect": false
+    },
+    {
+      "id": "cme5mkmoh001yucfdkgwz6d0l",
+      "questionId": "cme5mkmnw000sucfd52avv6zl",
+      "text": "ЛЕВСИМВ()",
+      "order": 1,
+      "isCorrect": true
+    },
+    {
+      "id": "cme5mkmoh0020ucfd0y4tr5cp",
+      "questionId": "cme5mkmnw000sucfd52avv6zl",
+      "text": "ПРАВСИМВ()",
+      "order": 2,
+      "isCorrect": true
+    },
+    {
+      "id": "cme5mkmoi0022ucfdrkoxnuef",
+      "questionId": "cme5mkmnw000sucfd52avv6zl",
+      "text": "СЦЕПИТЬ()",
+      "order": 3,
+      "isCorrect": true
+    },
+    {
+      "id": "cme5mkmoj0024ucfdhgri67x2",
+      "questionId": "cme5mkmnw000sucfd52avv6zl",
+      "text": "СУММ()",
+      "order": 4,
+      "isCorrect": false
+    }
+  ],
+  "assignments": [
+    {
+      "id": "assignment1",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "title": "Практическое задание: Создание таблицы",
+      "description": "<h3>Создайте простую таблицу в Excel</h3><p>Создайте таблицу с данными о продажах, включающую:</p><ul><li>Название товара</li><li>Количество</li><li>Цену за единицу</li><li>Общую стоимость</li></ul><p>Используйте формулы для расчета общей стоимости.</p>",
+      "createdAt": "2025-08-10T11:53:27.764Z"
+    },
+    {
+      "id": "assignment2",
+      "moduleId": "cme5mkmne0003ucfdjz1m46zg",
+      "title": "Практическое задание: Импорт данных",
+      "description": "<h3>Импортируйте данные в Excel</h3><p>Скачайте CSV файл с данными и импортируйте его в Excel. Выполните следующие действия:</p><ul><li>Импортируйте CSV файл</li><li>Очистите данные</li><li>Создайте сводную таблицу</li><li>Постройте график</li></ul>",
+      "createdAt": "2025-08-10T11:53:27.766Z"
+    },
+    {
+      "id": "assignment3",
+      "moduleId": "cme5mkmne0004ucfdak0lpbuc",
+      "title": "Практическое задание: Сложные формулы",
+      "description": "<h3>Создайте сложные формулы</h3><p>Используя предоставленные данные, создайте формулы для:</p><ul><li>Расчета среднего значения с условием</li><li>Поиска данных с помощью ВПР()</li><li>Обработки текста</li><li>Создания сводных таблиц</li></ul>",
+      "createdAt": "2025-08-10T11:53:27.767Z"
+    }
+  ],
+  "submissions": [
+    {
+      "id": "cme5mmi5a0003ucstv7eznk2c",
+      "userId": "cme5mkmgp0000ucfdbbh9jpr1",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "assignmentId": "assignment1",
+      "fileUrl": "/uploads/submissions/submission_cme5mkmgp0000ucfdbbh9jpr1_assignment1_1754826895198.xlsx",
+      "status": "GRADED",
+      "grade": 5,
+      "feedback": "",
+      "submittedAt": "2025-08-10T11:54:55.199Z",
+      "gradedAt": "2025-08-10T12:02:30.868Z"
+    },
+    {
+      "id": "cme5oprp20003uctbmwj87ac6",
+      "userId": "cme5mkmn80001ucfd6dtx6vlf",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "assignmentId": "assignment1",
+      "fileUrl": "/uploads/submissions/submission_cme5mkmn80001ucfd6dtx6vlf_assignment1_1754830406773.docx",
+      "status": "GRADED",
+      "grade": 5,
+      "feedback": "",
+      "submittedAt": "2025-08-10T12:53:26.775Z",
+      "gradedAt": "2025-08-10T13:19:39.517Z"
+    },
+    {
+      "id": "cme5qo7ut000luctbrq1y9xzh",
+      "userId": "cme5mkmn80001ucfd6dtx6vlf",
+      "moduleId": "cme5mkmne0003ucfdjz1m46zg",
+      "assignmentId": "assignment2",
+      "fileUrl": "/uploads/submissions/submission_cme5mkmn80001ucfd6dtx6vlf_assignment2_1754833693635.pdf",
+      "status": "NEW",
+      "grade": null,
+      "feedback": null,
+      "submittedAt": "2025-08-10T13:48:13.638Z",
+      "gradedAt": null
+    }
+  ],
+  "quizResults": [
+    {
+      "id": "cme5mm1qt0001ucstbrqwyerd",
+      "userId": "cme5mkmgp0000ucfdbbh9jpr1",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "scorePercent": 0,
+      "attemptId": "attempt_1754826873940_2ifbmqbhj",
+      "submittedAt": "2025-08-10T11:54:33.940Z"
+    },
+    {
+      "id": "cme5n81v30001uc2yc75io37j",
+      "userId": "cme5mkmgp0000ucfdbbh9jpr1",
+      "moduleId": "cme5mkmne0003ucfdjz1m46zg",
+      "scorePercent": 50,
+      "attemptId": "attempt_1754827900526_9ttaze4s9",
+      "submittedAt": "2025-08-10T12:11:40.526Z"
+    },
+    {
+      "id": "cme5ophrd0001uctbuhslid3o",
+      "userId": "cme5mkmn80001ucfd6dtx6vlf",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "scorePercent": 50,
+      "attemptId": "attempt_1754830393895_94i4388t9",
+      "submittedAt": "2025-08-10T12:53:13.895Z"
+    },
+    {
+      "id": "cme5pfgd70005uctbm8clrcy8",
+      "userId": "cme5mkmgp0000ucfdbbh9jpr1",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "scorePercent": 100,
+      "attemptId": "attempt_1754831605147_4i7ge24q6",
+      "submittedAt": "2025-08-10T13:13:25.147Z"
+    },
+    {
+      "id": "cme5prz6a0009uctbuptt3vb2",
+      "userId": "cme5mkmn80001ucfd6dtx6vlf",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "scorePercent": 50,
+      "attemptId": "attempt_1754832189391_rul8lzs5s",
+      "submittedAt": "2025-08-10T13:23:09.394Z"
+    },
+    {
+      "id": "cme5pse6c000buctbwhke7vpr",
+      "userId": "cme5mkmn80001ucfd6dtx6vlf",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "scorePercent": 0,
+      "attemptId": "attempt_1754832208835_y8m4dfr2k",
+      "submittedAt": "2025-08-10T13:23:28.836Z"
+    },
+    {
+      "id": "cme5pt4kf000ductby43kq3a7",
+      "userId": "cme5mkmn80001ucfd6dtx6vlf",
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "scorePercent": 100,
+      "attemptId": "attempt_1754832243038_l0poleisu",
+      "submittedAt": "2025-08-10T13:24:03.039Z"
+    },
+    {
+      "id": "cme5ptfi9000fuctbix9yt7jh",
+      "userId": "cme5mkmn80001ucfd6dtx6vlf",
+      "moduleId": "cme5mkmne0003ucfdjz1m46zg",
+      "scorePercent": 0,
+      "attemptId": "attempt_1754832257216_symkscwjx",
+      "submittedAt": "2025-08-10T13:24:17.217Z"
+    },
+    {
+      "id": "cme5pts0s000huctbf80ol3ck",
+      "userId": "cme5mkmn80001ucfd6dtx6vlf",
+      "moduleId": "cme5mkmne0003ucfdjz1m46zg",
+      "scorePercent": 50,
+      "attemptId": "attempt_1754832273435_076m4pia4",
+      "submittedAt": "2025-08-10T13:24:33.435Z"
+    },
+    {
+      "id": "cme5q7o4r000juctbp4alar6y",
+      "userId": "cme5mkmn80001ucfd6dtx6vlf",
+      "moduleId": "cme5mkmne0003ucfdjz1m46zg",
+      "scorePercent": 100,
+      "attemptId": "attempt_1754832921578_fc7lpzkjc",
+      "submittedAt": "2025-08-10T13:35:21.579Z"
+    }
+  ],
+  "progressFiles": {
+    "cmdww18dz0000ucy3w380ew90.json": {
+      "userId": "cmdww18dz0000ucy3w380ew90",
+      "updatedAt": "2025-08-05T08:56:28.002Z",
+      "modules": [
+        {
+          "moduleId": "cmdwwhbw00008uceiwu50bgbb",
+          "status": "available",
+          "lessonsRead": [
+            "cmdwwp0tu0001uc7r9mm6q5ry"
+          ],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cmdwyh5pw0002uckoilxnzssp",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cmdwyh5py0003uckoxgwgtifp",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cmdwyh5pz0004ucko7w17vx1t",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cmdwzp9tf0002ucwka4nyzehu",
+          "status": "available",
+          "lessonsRead": [
+            "cmdwzp9tj0006ucwkf0f85odc"
+          ],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cmdwzp9th0003ucwkz8afeu7v",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cmdwzp9ti0004ucwk1b17s3o9",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        }
+      ]
+    },
+    "cmdwzp9ms0000ucwkd4w8jbr7.json": {
+      "userId": "cmdwzp9ms0000ucwkd4w8jbr7",
+      "updatedAt": "2025-08-07T12:02:43.622Z",
+      "modules": [
+        {
+          "moduleId": "cmdwzp9tf0002ucwka4nyzehu",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cmdwzp9th0003ucwkz8afeu7v",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cmdwzp9ti0004ucwk1b17s3o9",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cmdyem0vf0008uc6m52gxx3qe",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cmdykqtay0000uctlt9zn3w6s",
+          "status": "available",
+          "lessonsRead": [
+            "cmdykrw4a0002uctle8et25fs"
+          ],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cmdz0t1lq0061uctl48ebmihz",
+          "status": "available",
+          "lessonsRead": [
+            "cmdz100920001uc692nijdnzk"
+          ],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cme16lngk0004ucv72iienvdp",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cme1bk1u50002uc618zizvasb",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cme1bk1u80003uc6184jba9qu",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cme1bk1u90004uc61qhcnc9wa",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        }
+      ]
+    },
+    "cmdwzp9tc0001ucwk5t4kffzq.json": {
+      "userId": "cmdwzp9tc0001ucwk5t4kffzq",
+      "updatedAt": "2025-08-05T22:01:40.296Z",
+      "modules": [
+        {
+          "moduleId": "cmdykqtay0000uctlt9zn3w6s",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cmdz0t1lq0061uctl48ebmihz",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        }
+      ]
+    },
+    "cme1g72ub000kucb0t9o6zhd3.json": {
+      "userId": "cme1g72ub000kucb0t9o6zhd3",
+      "updatedAt": "2025-08-07T14:53:26.454Z",
+      "modules": [
+        {
+          "moduleId": "cme1fsftn0002uc6a67rog4vz",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cme1fsftp0003uc6avh99ypuq",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cme1fsftq0004uc6am4s5asxa",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cme1gesvp000mucb0ala1irm4",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        }
+      ]
+    },
+    "cme5mkmgp0000ucfdbbh9jpr1.json": {
+      "userId": "cme5mkmgp0000ucfdbbh9jpr1",
+      "updatedAt": "2025-08-10T13:17:26.051Z",
+      "modules": [
+        {
+          "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+          "status": "available",
+          "lessonsRead": [
+            "cme5mkmnf0006ucfd3bnmoiep"
+          ],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cme5mkmne0003ucfdjz1m46zg",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cme5mkmne0004ucfdak0lpbuc",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        }
+      ]
+    },
+    "cme5mkmn80001ucfd6dtx6vlf.json": {
+      "userId": "cme5mkmn80001ucfd6dtx6vlf",
+      "updatedAt": "2025-08-10T12:48:03.126Z",
+      "modules": [
+        {
+          "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cme5mkmne0003ucfdjz1m46zg",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        },
+        {
+          "moduleId": "cme5mkmne0004ucfdak0lpbuc",
+          "status": "available",
+          "lessonsRead": [],
+          "quiz": {
+            "attempts": []
+          },
+          "assignment": {
+            "submitted": false
+          }
+        }
+      ]
+    }
+  }
+}

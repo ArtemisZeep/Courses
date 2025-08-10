@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { writeCurrentBackup } from '@/lib/backup'
 
 interface RouteContext {
   params: Promise<{ id: string }>
@@ -112,6 +113,8 @@ export async function PUT(request: NextRequest, { params }: RouteContext) {
       },
     })
 
+    // Обновляем текущий бэкап без ожидания
+    writeCurrentBackup().catch(() => {})
     return NextResponse.json({ message: 'Модуль успешно обновлен', module })
   } catch (error) {
     console.error('Ошибка при обновлении модуля:', error)
@@ -150,6 +153,8 @@ export async function DELETE(request: NextRequest, { params }: RouteContext) {
       where: { id },
     })
 
+    // Обновляем текущий бэкап без ожидания
+    writeCurrentBackup().catch(() => {})
     return NextResponse.json({ message: 'Модуль успешно удален' })
   } catch (error) {
     console.error('Ошибка при удалении модуля:', error)

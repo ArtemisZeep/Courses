@@ -1,7 +1,7 @@
 // Константы приложения
 
-// Порог для прохождения модуля (75%)
-export const PASS_THRESHOLD_PERCENT = 75;
+// Порог для прохождения теста (50%)
+export const PASS_THRESHOLD_PERCENT = 50;
 
 // Максимальный размер файла для загрузки (50MB)
 export const MAX_FILE_SIZE = 50 * 1024 * 1024;

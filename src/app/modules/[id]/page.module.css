@@ -1,0 +1,65 @@
+.centerScreen { min-height: 100vh; display:flex; align-items:center; justify-content:center; }
+.textCenter { text-align:center; }
+.spinnerLg { width:8rem; height:8rem; border-bottom:2px solid #111827; border-radius:9999px; margin:0 auto; animation: spin 1s linear infinite; }
+.muted { color:#4b5563; }
+
+.page { min-height:100vh; background:#f9fafb; }
+.header { background:#fff; box-shadow:0 1px 2px rgba(0,0,0,0.05); }
+.container { max-width:80rem; margin:0 auto; padding-left:1rem; padding-right:1rem; }
+@media (min-width:640px){ .container{ padding-left:1.5rem; padding-right:1.5rem; } }
+@media (min-width:1024px){ .container{ padding-left:2rem; padding-right:2rem; } }
+.headerBar { display:flex; justify-content:space-between; align-items:center; padding-top:1.5rem; padding-bottom:1.5rem; }
+.backLink { color:#2563eb; text-decoration:underline; text-underline-offset:2px; font-size:0.875rem; }
+.moduleTitle { font-size:1.875rem; line-height:2.25rem; font-weight:700; color:#111827; margin-top:0.5rem; }
+.moduleDesc { color:#4b5563; }
+
+.main { max-width:80rem; margin:0 auto; padding:2rem 1rem; }
+@media (min-width:640px){ .main{ padding-left:1.5rem; padding-right:1.5rem; } }
+@media (min-width:1024px){ .main{ padding-left:2rem; padding-right:2rem; } }
+.tabsList { display:grid; width:100%; grid-template-columns:repeat(3, minmax(0,1fr)); }
+.tabContent { display:flex; flex-direction:column; gap:1.5rem; }
+.emptyText { color:#6b7280; }
+
+.cardTitleRow { display:flex; align-items:center; justify-content:space-between; }
+.badgeSuccessOutline { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
+.proseNoLimit { max-width:none; }
+.proseSmNoLimit { max-width:none; font-size:0.875rem; line-height:1.25rem; }
+
+.errorCard { background:#fef2f2; border-color:#fecaca; }
+.pt6 { padding-top:1.5rem; }
+.errorRow { display:flex; align-items:center; column-gap:0.5rem; }
+.errorIcon { color:#dc2626; }
+.errorTitle { font-weight:600; color:#991b1b; }
+.errorPre { font-size:0.875rem; line-height:1.25rem; color:#b91c1c; white-space:pre-wrap; }
+.mt3 { margin-top:0.75rem; }
+
+.assignmentMeta { font-size:0.75rem; line-height:1rem; }
+.infoNote { font-size:0.75rem; line-height:1rem; color:#6b7280; }
+.centerNote { color:#6b7280; text-align:center; padding-top:1rem; padding-bottom:1rem; }
+.sectionBorderTop { border-top:1px solid #e5e7eb; padding-top:1rem; }
+.sectionTitle { font-weight:600; margin-bottom:0.5rem; }
+.uploadInfoBox { background:#eff6ff; border:1px solid #bfdbfe; border-radius:0.5rem; padding:0.75rem; margin-bottom:0.75rem; }
+.rowBetween { display:flex; align-items:center; justify-content:space-between; }
+.textBlueStrong { color:#1e40af; font-weight:500; }
+.textBlue { color:#2563eb; font-size:0.875rem; line-height:1.25rem; }
+.textBlueLight { color:#3b82f6; font-size:0.75rem; line-height:1rem; }
+.gradeBlock { margin-top:0.75rem; padding-top:0.75rem; border-top:1px solid #bfdbfe; }
+.gradeRow { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; }
+.gradeLabel { font-size:0.875rem; line-height:1.25rem; font-weight:500; }
+.teacherLabel { font-size:0.875rem; line-height:1.25rem; font-weight:500; color:#374151; margin-bottom:0.25rem; }
+.teacherBox { background:#fff; border:1px solid #e5e7eb; border-radius:0.375rem; padding:0.5rem; font-size:0.875rem; line-height:1.25rem; color:#4b5563; }
+.teacherNote { font-size:0.75rem; line-height:1rem; color:#6b7280; margin-top:0.5rem; }
+.errorBox { background:#fef2f2; border:1px solid #fecaca; border-radius:0.5rem; padding:0.75rem; margin-bottom:0.75rem; }
+.successBox { background:#ecfdf5; border:1px solid #bbf7d0; border-radius:0.5rem; padding:0.75rem; margin-bottom:0.75rem; }
+.uploader { display:flex; flex-direction:column; gap:0.75rem; }
+.dropzone { border:2px dashed #d1d5db; border-radius:0.5rem; padding:1rem; }
+.hiddenInput { display:none; }
+.uploadCenter { text-align:center; }
+.uploadHelp { color:#6b7280; margin-bottom:0.5rem; }
+.uploadHint { font-size:0.75rem; line-height:1rem; color:#9ca3af; margin-bottom:0.75rem; }
+.mb2 { margin-bottom:0.5rem; }
+.btnFull { width:100%; }
+.spinnerSm { width:1rem; height:1rem; border-bottom:2px solid white; border-radius:9999px; margin-right:0.5rem; animation: spin 1s linear infinite; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
