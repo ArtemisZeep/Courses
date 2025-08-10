@@ -3,9 +3,6 @@ const nextConfig = {
   // Базовый путь для деплоя на поддомене
   basePath: '/course',
   
-  // Настройки для продакшена
-  output: 'standalone',
-  
   // Настройки изображений
   images: {
     unoptimized: true, // Для статического экспорта
@@ -40,6 +37,9 @@ const nextConfig = {
       },
     ];
   },
+  
+  // Настройки для предотвращения статического рендеринга API роутов
+  serverExternalPackages: ['bcryptjs'],
 };
 
 module.exports = nextConfig;
