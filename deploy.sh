@@ -83,8 +83,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Установка зависимостей
-RUN npm ci --only=production
+# Установка всех зависимостей (включая devDependencies для сборки)
+RUN npm ci
 
 # Генерация Prisma клиента
 RUN npx prisma generate
@@ -94,6 +94,9 @@ COPY . .
 
 # Сборка приложения
 RUN npm run build
+
+# Удаление devDependencies для уменьшения размера образа
+RUN npm prune --production
 
 # Создание пользователя для безопасности
 RUN addgroup -g 1001 -S nodejs
