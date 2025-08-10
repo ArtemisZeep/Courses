@@ -5,6 +5,8 @@ import { db } from './db'
 import { LoginSchema } from './schemas'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  // Избегаем ошибок UntrustedHost в проде за счёт ENV и явного флага
+  trustHost: true,
   session: {
     strategy: 'jwt',
   },
