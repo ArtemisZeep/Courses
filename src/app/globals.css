@@ -74,10 +74,10 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50 transition-colors duration-200;
+    @apply border-gray-200 outline-blue-500/50 transition-colors duration-200;
   }
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-white text-gray-900 antialiased;
     /* Subtle radial background accents for depth */
     background-image:
       radial-gradient(1200px 600px at -10% -10%, oklch(0.95 0.03 270 / 45%) 0%, transparent 60%),
