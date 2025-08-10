@@ -4,12 +4,11 @@ import { db } from '@/lib/db'
 import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
 
-interface RouteContext {
-  params: Promise<{ id: string }>
-}
-
 // Получить задание по ID
-export async function GET(request: NextRequest, { params }: RouteContext) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth()
     if (!session) {
@@ -49,7 +48,10 @@ export async function GET(request: NextRequest, { params }: RouteContext) {
 }
 
 // Обновить задание
-export async function PUT(request: NextRequest, { params }: RouteContext) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth()
     if (!session) {
@@ -147,7 +149,10 @@ export async function PUT(request: NextRequest, { params }: RouteContext) {
 }
 
 // Удалить задание
-export async function DELETE(request: NextRequest, { params }: RouteContext) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth()
     if (!session) {

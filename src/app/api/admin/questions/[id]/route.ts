@@ -2,12 +2,11 @@ import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 
-interface RouteContext {
-  params: { id: string }
-}
-
 // Удалить вопрос
-export async function DELETE(request: Request, { params }: RouteContext) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth()
     if (!session) {
@@ -18,9 +17,11 @@ export async function DELETE(request: Request, { params }: RouteContext) {
       return NextResponse.json({ error: 'Недостаточно прав' }, { status: 403 })
     }
 
+    const { id } = await params
+
     // Проверяем, существует ли вопрос
     const existingQuestion = await db.question.findUnique({
-      where: { id: params.id },
+      where: { id },
     })
 
     if (!existingQuestion) {
@@ -29,7 +30,7 @@ export async function DELETE(request: Request, { params }: RouteContext) {
 
     // Удаляем вопрос (варианты ответов удалятся каскадно)
     await db.question.delete({
-      where: { id: params.id },
+      where: { id },
     })
 
     return NextResponse.json({ message: 'Вопрос успешно удален' })

@@ -4,12 +4,11 @@ import { db } from '@/lib/db'
 import { GradeSubmissionSchema } from '@/lib/schemas'
 import { writeCurrentBackup } from '@/lib/backup'
 
-interface RouteContext {
-  params: Promise<{ id: string }>
-}
-
 // Оценить отправленное задание
-export async function POST(request: Request, { params }: RouteContext) {
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth()
     if (!session) {

@@ -3,12 +3,11 @@ import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { ModuleSchema } from '@/lib/schemas'
 
-interface RouteContext {
-  params: Promise<{ id: string }>
-}
-
 // Получить конкретный модуль
-export async function GET(request: Request, { params }: RouteContext) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth()
     if (!session) {
@@ -68,7 +67,10 @@ export async function GET(request: Request, { params }: RouteContext) {
 }
 
 // Обновить модуль (только для админов)
-export async function PUT(request: Request, { params }: RouteContext) {
+export async function PUT(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth()
     if (!session) {
@@ -137,7 +139,10 @@ export async function PUT(request: Request, { params }: RouteContext) {
 }
 
 // Удалить модуль (только для админов)
-export async function DELETE(request: Request, { params }: RouteContext) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth()
     if (!session) {

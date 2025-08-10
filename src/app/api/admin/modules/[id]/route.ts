@@ -3,12 +3,11 @@ import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { writeCurrentBackup } from '@/lib/backup'
 
-interface RouteContext {
-  params: Promise<{ id: string }>
-}
-
 // Получить модуль по ID для админ панели (включая неактивные)
-export async function GET(request: NextRequest, { params }: RouteContext) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth()
     if (!session) {
@@ -48,7 +47,10 @@ export async function GET(request: NextRequest, { params }: RouteContext) {
 }
 
 // Обновить модуль (только для админов)
-export async function PUT(request: NextRequest, { params }: RouteContext) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth()
     if (!session) {
@@ -126,7 +128,10 @@ export async function PUT(request: NextRequest, { params }: RouteContext) {
 }
 
 // Удалить модуль (только для админов)
-export async function DELETE(request: NextRequest, { params }: RouteContext) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth()
     if (!session) {

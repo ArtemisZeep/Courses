@@ -2,12 +2,11 @@ import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 
-interface RouteContext {
-  params: Promise<{ assignmentId: string }>
-}
-
 // Получить детали решения студента с оценкой
-export async function GET(request: Request, { params }: RouteContext) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ assignmentId: string }> }
+) {
   try {
     const session = await auth()
     if (!session) {
