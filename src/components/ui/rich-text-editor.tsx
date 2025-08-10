@@ -14,10 +14,6 @@ import {
   Strikethrough, 
   List, 
   ListOrdered,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  AlignJustify,
   Type,
   Palette
 } from 'lucide-react'
@@ -83,7 +79,7 @@ export default function RichTextEditor({
     if (editor && mounted && value !== editor.getHTML()) {
       // Временно отключаем onUpdate чтобы избежать цикла
       const originalOnUpdate = editor.options.onUpdate
-      editor.options.onUpdate = undefined
+      editor.options.onUpdate = () => {} // Пустая функция вместо undefined
       
       editor.commands.setContent(value)
       
@@ -175,41 +171,7 @@ export default function RichTextEditor({
           </Button>
         </div>
 
-        {/* Alignment */}
-        <div className="flex items-center gap-1 border-r pr-2">
-          <Button
-            variant={editor.isActive({ textAlign: 'left' }) ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => editor.chain().focus().setTextAlign('left').run()}
-            title="По левому краю"
-          >
-            <AlignLeft className="h-4 w-4" />
-          </Button>
-          <Button
-            variant={editor.isActive({ textAlign: 'center' }) ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => editor.chain().focus().setTextAlign('center').run()}
-            title="По центру"
-          >
-            <AlignCenter className="h-4 w-4" />
-          </Button>
-          <Button
-            variant={editor.isActive({ textAlign: 'right' }) ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => editor.chain().focus().setTextAlign('right').run()}
-            title="По правому краю"
-          >
-            <AlignRight className="h-4 w-4" />
-          </Button>
-          <Button
-            variant={editor.isActive({ textAlign: 'justify' }) ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => editor.chain().focus().setTextAlign('justify').run()}
-            title="По ширине"
-          >
-            <AlignJustify className="h-4 w-4" />
-          </Button>
-        </div>
+
 
         {/* Font Size */}
         <div className="flex items-center gap-1 border-r pr-2">
