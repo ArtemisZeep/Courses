@@ -101,7 +101,7 @@ export async function GET() {
       const moduleProgress = progress.modules.find(m => m.moduleId === module.id)
       
       // Подсчитываем задания для этого модуля
-      const moduleSubmissions = submissions.filter(s => s.assignment.moduleId === module.id)
+      const moduleSubmissions = submissions.filter(s => s.assignment && s.assignment.moduleId === module.id)
       const assignmentsInfo = {
         total: module.assignments.length,
         completed: moduleSubmissions.length,
