@@ -1,0 +1,146 @@
+##############################################################################
+# 1) HTTPS-серверный блок для доменов mapyg.ru и www.mapyg.ru
+##############################################################################
+server {
+    # Слушаем 443 (SSL)
+    listen 443 ssl;
+    server_name mapyg.ru www.mapyg.ru;
+
+    client_max_body_size 50M;
+    # Если пользователь (или браузер) обратился к https://www.mapyg.ru,
+    # то перенаправляем его на https://mapyg.ru
+    if ($host = 'www.mapyg.ru') {
+        return 301 https://mapyg.ru$request_uri;
+    }
+
+    # SSL настройки (сертификаты, шифрование)
+    ssl_certificate /etc/letsencrypt/live/mapyg.ru/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/mapyg.ru/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf;              # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;                # managed by Certbot
+
+    # ===================== Статический фронтенд =====================
+    location / {
+        root /home/artemiszeep/Yougile_api/frontend_map/build;
+        try_files $uri $uri/ /index.html;
+    }
+
+    # ===================== Прокси server.js (порт 3002) =====================
+    location /server/ {
+        # Обработка OPTIONS (preflight) запросов
+        if ($request_method = OPTIONS) {
+            add_header 'Access-Control-Allow-Origin' 'https://mapyg.ru' always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, DELETE, PUT' always;
+            add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization' always;
+            add_header 'Content-Length' 0;
+            add_header 'Content-Type' 'text/plain charset=UTF-8';
+            return 204;
+        }
+        proxy_pass http://localhost:3002/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        add_header 'Access-Control-Allow-Origin' 'https://mapyg.ru' always;
+        add_header 'Access-Control-Allow-Credentials' 'true' always;
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, DELETE, PUT' always;
+        add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization' always;
+    }
+
+    # ===================== Прокси api.js (порт 3001) =====================
+    location /api/ {
+        if ($request_method = OPTIONS) {
+            add_header 'Access-Control-Allow-Origin' 'https://mapyg.ru' always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, DELETE, PUT' always;
+            add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization' always;
+            add_header 'Content-Length' 0;
+            add_header 'Content-Type' 'text/plain charset=UTF-8';
+            return 204;
+        }
+        proxy_pass http://localhost:3001/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        add_header 'Access-Control-Allow-Origin' 'https://mapyg.ru' always;
+        add_header 'Access-Control-Allow-Credentials' 'true' always;
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, DELETE, PUT' always;
+        add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization' always;
+    }
+
+    # ===================== Прокси bot.js (порт 3003) =====================
+    location /bot/ {
+        if ($request_method = OPTIONS) {
+            add_header 'Access-Control-Allow-Origin' '*' always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, DELETE, PUT' always;
+            add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization' always;
+            add_header 'Content-Length' 0;
+            add_header 'Content-Type' 'text/plain charset=UTF-8';
+            return 204;
+        }
+        proxy_pass http://localhost:3003/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        add_header 'Access-Control-Allow-Origin' '*' always;
+        add_header 'Access-Control-Allow-Credentials' 'true' always;
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, DELETE, PUT' always;
+        add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization' always;
+    }
+
+    # ===================== Прокси botapi.js (порт 3004) =====================
+    location /botapi/ {
+        if ($request_method = OPTIONS) {
+            add_header 'Access-Control-Allow-Origin' 'https://mapyg.ru' always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, DELETE, PUT' always;
+            add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization' always;
+            add_header 'Content-Length' 0;
+            add_header 'Content-Type' 'text/plain charset=UTF-8';
+            return 204;
+        }
+        proxy_pass http://localhost:3004/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        add_header 'Access-Control-Allow-Origin' 'https://mapyg.ru' always;
+        add_header 'Access-Control-Allow-Credentials' 'true' always;
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, DELETE, PUT' always;
+        add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization' always;
+    }
+    location /mapomb/ {        proxy_pass http://localhost:8081/;        proxy_set_header Host $host;        proxy_set_header X-Real-IP $remote_addr;        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;        proxy_set_header X-Forwarded-Proto $scheme;    }
+}
+
+##############################################################################
+# 2) HTTP-серверный блок: перенаправление на HTTPS
+##############################################################################
+server {
+    # Если пришли на 80-й порт (http://mapyg.ru или http://www.mapyg.ru)
+    # перенаправляем на https
+    server_name mapyg.ru www.mapyg.ru;
+
+    # Редирект с http://mapyg.ru -> https://mapyg.ru
+    if ($host = mapyg.ru) {
+        return 301 https://mapyg.ru$request_uri;
+    }
+    # Редирект с http://www.mapyg.ru -> https://www.mapyg.ru
+    # Но так как выше мы в https-блоке всё равно сводим www.mapyg.ru -> mapyg.ru,
+    # можем сразу перенаправить на mapyg.ru, чтобы не делать двойной редирект.
+    if ($host = www.mapyg.ru) {
+        return 301 https://mapyg.ru$request_uri;
+    }
+
+    listen 80;
+    return 404;
+    location /mapomb/ {        proxy_pass http://localhost:8081/;        proxy_set_header Host $host;        proxy_set_header X-Real-IP $remote_addr;        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;        proxy_set_header X-Forwarded-Proto $scheme;    }
+}
+

@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AuthSessionProvider from "@/components/providers/session-provider";
 import { initCronJobs } from "@/lib/cron";
 
-const inter = Inter({
-  variable: "--font-inter",
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthSessionProvider>
           {children}
