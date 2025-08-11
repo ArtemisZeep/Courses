@@ -49,80 +49,53 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Features */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        {/* Information */}
+        <div className="grid gap-8 mb-16">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
-                📖 Интерактивные уроки
-              </CardTitle>
+              <CardTitle className="text-blue-600">Платформа для обучения Excel - https://excel-edu.ru/</CardTitle>
             </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Изучайте Excel через практические примеры и пошаговые инструкции
-              </CardDescription>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                🧪 Тесты и задания
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Проверяйте свои знания с помощью интерактивных тестов и практических заданий
-              </CardDescription>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                📊 Отслеживание прогресса
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Следите за своим прогрессом и разблокируйте новые модули
-              </CardDescription>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Demo Login */}
-        <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-          <h3 className="text-2xl font-bold mb-4">🎯 Демо-доступ</h3>
-          <p className="text-gray-600 mb-6">
-            Попробуйте платформу прямо сейчас с тестовыми аккаунтами:
-          </p>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-blue-50 rounded-lg p-6">
-              <h4 className="font-semibold text-blue-800 mb-2">👨‍🎓 Студент</h4>
-              <p className="text-sm text-blue-600 mb-3">
-                Email: student@example.com<br/>
-                Пароль: student123
+            <CardContent className="space-y-6">
+              <p className="text-gray-600">
+                Здесь вы учитесь по модулям: читаете уроки, сдаёте тесты и загружаете практические задания.
               </p>
-              <Link href="/auth/signin">
-                <Button variant="outline" size="sm">
-                  Войти как студент
-                </Button>
-              </Link>
-            </div>
-            <div className="bg-green-50 rounded-lg p-6">
-              <h4 className="font-semibold text-green-800 mb-2">👨‍💼 Админ</h4>
-              <p className="text-sm text-green-600 mb-3">
-                Email: admin@example.com<br/>
-                Пароль: admin123
-              </p>
-              <Link href="/auth/signin">
-                <Button variant="outline" size="sm">
-                  Войти как админ
-                </Button>
-              </Link>
-            </div>
-          </div>
+              
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">Что вы можете делать</h3>
+                <ul className="list-disc list-inside space-y-2 text-gray-600">
+                  <li>Учиться по модулям: читать уроки и отмечать их как прочитанные.</li>
+                  <li>Сдавать тесты (квизы): можно пересдавать, засчитывается лучший результат.</li>
+                  <li>Загружать решения практических заданий (файлы).</li>
+                  <li>Смотреть свой прогресс.</li>
+                  <li>Участвовать в рейтинге и смотреть таблицу лидеров.</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">Как зарегистрироваться</h3>
+                <ol className="list-decimal list-inside space-y-2 text-gray-600">
+                  <li>Откройте страницу «Регистрация».</li>
+                  <li>Укажите имя (Фамилия и имя), email и пароль (не меньше 6 символов), подтвердите пароль.</li>
+                  <li>Нажмите «Зарегистрироваться».</li>
+                  <li>После этого войдите через «Вход» с вашим email и паролем.</li>
+                </ol>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">Как открыть следующий модуль</h3>
+                <ul className="list-disc list-inside space-y-2 text-gray-600">
+                  <li>Модули идут по порядку. Первый — доступен сразу.</li>
+                  <li>Чтобы открыть следующий, в текущем модуле нужно:</li>
+                  <ul className="list-disc list-inside ml-6 space-y-1">
+                    <li>сдать тест минимум на 50%;</li>
+                    <li>загрузить файл с решением задания.</li>
+                  </ul>
+                  <li>Если в модуле нет задания, достаточно сдать тест на 50% и выше.</li>
+                  <li>Как только условия выполнены, следующий модуль откроется автоматически.</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </main>
 
