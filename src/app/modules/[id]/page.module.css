@@ -16,7 +16,7 @@
 .main { max-width:80rem; margin:0 auto; padding:2rem 1rem; }
 @media (min-width:640px){ .main{ padding-left:1.5rem; padding-right:1.5rem; } }
 @media (min-width:1024px){ .main{ padding-left:2rem; padding-right:2rem; } }
-.tabsList { display:grid; width:100%; grid-template-columns:repeat(3, minmax(0,1fr)); }
+.tabsList { width:100%; grid-template-columns:repeat(3, minmax(0,1fr)); }
 .tabContent { display:flex; flex-direction:column; gap:1.5rem; }
 .emptyText { color:#6b7280; }
 
