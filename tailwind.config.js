@@ -8,36 +8,37 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        border: 'oklch(var(--border) / 1)',
-        input: 'oklch(var(--input) / 1)',
-        ring: 'oklch(var(--ring) / 1)',
-        background: 'oklch(var(--background) / 1)',
-        foreground: 'oklch(var(--foreground) / 1)',
+        // Map directly to CSS variables which already contain full color values
+        border: 'var(--border)',
+        input: 'var(--input)',
+        ring: 'var(--ring)',
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
         primary: {
-          DEFAULT: 'oklch(var(--primary) / 1)',
-          foreground: 'oklch(var(--primary-foreground) / 1)',
+          DEFAULT: 'var(--primary)',
+          foreground: 'var(--primary-foreground)',
         },
         secondary: {
-          DEFAULT: 'oklch(var(--secondary) / 1)',
-          foreground: 'oklch(var(--secondary-foreground) / 1)',
+          DEFAULT: 'var(--secondary)',
+          foreground: 'var(--secondary-foreground)',
         },
         accent: {
-          DEFAULT: 'oklch(var(--accent) / 1)',
-          foreground: 'oklch(var(--accent-foreground) / 1)',
+          DEFAULT: 'var(--accent)',
+          foreground: 'var(--accent-foreground)',
         },
         destructive: {
-          DEFAULT: 'oklch(var(--destructive) / 1)',
-          foreground: 'oklch(1 0 0 / 1)',
+          DEFAULT: 'var(--destructive)',
+          foreground: 'white',
         },
         sidebar: {
-          DEFAULT: 'oklch(var(--sidebar) / 1)',
-          foreground: 'oklch(var(--sidebar-foreground) / 1)',
-          primary: 'oklch(var(--sidebar-primary) / 1)',
-          'primary-foreground': 'oklch(var(--sidebar-primary-foreground) / 1)',
-          accent: 'oklch(var(--sidebar-accent) / 1)',
-          'accent-foreground': 'oklch(var(--sidebar-accent-foreground) / 1)',
-          border: 'oklch(var(--sidebar-border) / 1)',
-          ring: 'oklch(var(--sidebar-ring) / 1)',
+          DEFAULT: 'var(--sidebar)',
+          foreground: 'var(--sidebar-foreground)',
+          primary: 'var(--sidebar-primary)',
+          'primary-foreground': 'var(--sidebar-primary-foreground)',
+          accent: 'var(--sidebar-accent)',
+          'accent-foreground': 'var(--sidebar-accent-foreground)',
+          border: 'var(--sidebar-border)',
+          ring: 'var(--sidebar-ring)',
         },
       },
       borderRadius: {
