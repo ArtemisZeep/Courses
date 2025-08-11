@@ -402,21 +402,25 @@ export default function ModulePage() {
               module.lessons.map((lesson) => (
                 <Card key={lesson.id}>
                   <CardHeader>
-                    <CardTitle className={styles.cardTitleRow}>
-                      {lesson.title}
-                      {readLessons.includes(lesson.id) ? (
-                        <Badge variant="outline" className={styles.badgeSuccessOutline}>
-                          ✓ Прочитано
-                        </Badge>
-                      ) : (
-                        <Button
-                          size="sm"
-                          onClick={() => markLessonAsRead(lesson.id)}
-                        >
-                          ✓ Отметить как прочитанный
-                        </Button>
-                      )}
-                    </CardTitle>
+                    <div className="flex items-start justify-between gap-4">
+                      <CardTitle className="flex-1">
+                        {lesson.title}
+                      </CardTitle>
+                      <div className="flex-shrink-0">
+                        {readLessons.includes(lesson.id) ? (
+                          <Badge variant="outline" className={styles.badgeSuccessOutline}>
+                            ✓ Прочитано
+                          </Badge>
+                        ) : (
+                          <Button
+                            size="sm"
+                            onClick={() => markLessonAsRead(lesson.id)}
+                          >
+                            ✓ Отметить как прочитанный
+                          </Button>
+                        )}
+                      </div>
+                    </div>
                   </CardHeader>
                   <CardContent>
                     {lesson.googleDocUrl ? (
@@ -495,12 +499,16 @@ export default function ModulePage() {
               module.assignments.map((assignment) => (
                 <Card key={assignment.id}>
                   <CardHeader>
-                    <CardTitle className={styles.cardTitleRow}>
-                      {assignment.title}
-                      <Badge variant="outline" className={styles.assignmentMeta}>
-                        Новое
-                      </Badge>
-                    </CardTitle>
+                    <div className="flex items-start justify-between gap-4">
+                      <CardTitle className="flex-1">
+                        {assignment.title}
+                      </CardTitle>
+                      <div className="flex-shrink-0">
+                        <Badge variant="outline" className={styles.assignmentMeta}>
+                          Новое
+                        </Badge>
+                      </div>
+                    </div>
                     <CardDescription>
                       <div 
                         className={`prose prose-sm max-w-none ${styles.proseSmNoLimit}`}
