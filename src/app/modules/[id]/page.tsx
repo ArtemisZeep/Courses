@@ -426,7 +426,7 @@ export default function ModulePage() {
                       />
                     ) : lesson.contentHtml ? (
                       <div 
-                        className={styles.proseNoLimit}
+                        className={`prose max-w-none ${styles.proseNoLimit}`}
                         dangerouslySetInnerHTML={{ __html: lesson.contentHtml }}
                       />
                     ) : (
@@ -503,7 +503,7 @@ export default function ModulePage() {
                     </CardTitle>
                     <CardDescription>
                       <div 
-                        className={styles.proseSmNoLimit}
+                        className={`prose prose-sm max-w-none ${styles.proseSmNoLimit}`}
                         dangerouslySetInnerHTML={{ __html: assignment.description }}
                       />
                     </CardDescription>

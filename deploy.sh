@@ -104,9 +104,10 @@ RUN npm prune --production
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
 
-# Создание директорий для загрузок
-RUN mkdir -p /app/public/uploads/assignments /app/public/uploads/submissions
-RUN chown -R nextjs:nodejs /app/public/uploads
+# Создание директорий для загрузок и данных (прогресс/бэкапы)
+RUN mkdir -p /app/public/uploads/assignments /app/public/uploads/submissions \
+    && mkdir -p /app/data/progress /app/data/backups \
+    && chown -R nextjs:nodejs /app/public/uploads /app/data
 
 USER nextjs
 
@@ -149,8 +150,10 @@ services:
       - UPLOAD_DIR=./public/uploads
       - MAX_FILE_SIZE=52428800
       - PASS_THRESHOLD_PERCENT=50
+      - PROGRESS_DIR=/app/data/progress
     volumes:
       - ./public/uploads:/app/public/uploads
+      - ./data:/app/data
     depends_on:
       - db
     networks:
@@ -375,6 +378,9 @@ deploy() {
     
     # Создание директорий для загрузок
     mkdir -p public/uploads/{assignments,submissions}
+    # Создание директорий для данных приложения (прогресс/бэкапы) на хосте
+    mkdir -p data/{progress,backups}
+    chmod -R 777 data || true
     
     # Сборка и запуск контейнеров
     log_info "Сборка Docker образов..."
