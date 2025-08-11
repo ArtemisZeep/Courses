@@ -8,37 +8,31 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Map directly to CSS variables which already contain full color values
-        border: 'var(--border)',
-        input: 'var(--input)',
-        ring: 'var(--ring)',
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
+        // Simple, reliable colors
+        border: '#e2e8f0',
+        input: '#f1f5f9',
+        ring: '#3b82f6',
+        background: '#ffffff',
+        foreground: '#0f172a',
         primary: {
-          DEFAULT: 'var(--primary)',
-          foreground: 'var(--primary-foreground)',
+          DEFAULT: '#3b82f6',
+          foreground: '#ffffff',
         },
         secondary: {
-          DEFAULT: 'var(--secondary)',
-          foreground: 'var(--secondary-foreground)',
+          DEFAULT: '#f1f5f9',
+          foreground: '#0f172a',
         },
         accent: {
-          DEFAULT: 'var(--accent)',
-          foreground: 'var(--accent-foreground)',
+          DEFAULT: '#f8fafc',
+          foreground: '#0f172a',
+        },
+        muted: {
+          DEFAULT: '#f8fafc',
+          foreground: '#64748b',
         },
         destructive: {
-          DEFAULT: 'var(--destructive)',
-          foreground: 'white',
-        },
-        sidebar: {
-          DEFAULT: 'var(--sidebar)',
-          foreground: 'var(--sidebar-foreground)',
-          primary: 'var(--sidebar-primary)',
-          'primary-foreground': 'var(--sidebar-primary-foreground)',
-          accent: 'var(--sidebar-accent)',
-          'accent-foreground': 'var(--sidebar-accent-foreground)',
-          border: 'var(--sidebar-border)',
-          ring: 'var(--sidebar-ring)',
+          DEFAULT: '#ef4444',
+          foreground: '#ffffff',
         },
       },
       borderRadius: {

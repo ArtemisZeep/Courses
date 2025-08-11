@@ -1,6 +1,6 @@
 {
   "userId": "cme1g72ub000kucb0t9o6zhd3",
-  "updatedAt": "2025-08-07T14:53:26.454Z",
+  "updatedAt": "2025-08-11T09:52:08.564Z",
   "modules": [
     {
       "moduleId": "cme1fsftn0002uc6a67rog4vz",
@@ -37,6 +37,39 @@
     },
     {
       "moduleId": "cme1gesvp000mucb0ala1irm4",
+      "status": "available",
+      "lessonsRead": [],
+      "quiz": {
+        "attempts": []
+      },
+      "assignment": {
+        "submitted": false
+      }
+    },
+    {
+      "moduleId": "cme5mkmnb0002ucfdpon3dma2",
+      "status": "available",
+      "lessonsRead": [],
+      "quiz": {
+        "attempts": []
+      },
+      "assignment": {
+        "submitted": false
+      }
+    },
+    {
+      "moduleId": "cme5mkmne0003ucfdjz1m46zg",
+      "status": "available",
+      "lessonsRead": [],
+      "quiz": {
+        "attempts": []
+      },
+      "assignment": {
+        "submitted": false
+      }
+    },
+    {
+      "moduleId": "cme5mkmne0004ucfdak0lpbuc",
       "status": "available",
       "lessonsRead": [],
       "quiz": {

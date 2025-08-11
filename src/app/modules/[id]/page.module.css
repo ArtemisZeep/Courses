@@ -20,7 +20,7 @@
 .tabContent { display:flex; flex-direction:column; gap:1.5rem; }
 .emptyText { color:#6b7280; }
 
-.cardTitleRow { display:flex; align-items:center; justify-content:space-between; }
+.cardTitleRow { display:flex; align-items:start; justify-content:space-between; gap:1rem; }
 .badgeSuccessOutline { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
 .proseNoLimit { max-width:none; }
 .proseSmNoLimit { max-width:none; font-size:0.875rem; line-height:1.25rem; }
